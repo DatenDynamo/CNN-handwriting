@@ -1,5 +1,4 @@
-# cnn-handwriting
-
+# CNN für den MNIST-Datensatz (Gruppennumer: 101)
 
 
 ## Getting started
