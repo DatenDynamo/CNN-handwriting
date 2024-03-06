@@ -5,7 +5,7 @@
 
 In diesem GitLab Projekt wollen wir gemeinsam am Code arbeiten um das Modul Künstliche Intelligenz I im Wintersemester 2023/24 abzuschließen.
 
-# Test
+# Testds
 
 
 ## Add your files
