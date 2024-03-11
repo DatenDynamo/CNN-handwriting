@@ -2,6 +2,7 @@ from helping_functions import (
     plot_samples,
 )
 
+# tensorflow-gpu anaconda env nutzen!
 
 import matplotlib.pyplot as plt
 import numpy as np
