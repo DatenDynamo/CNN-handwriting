@@ -15,6 +15,9 @@ print(f"Available GPUs: {tf.config.list_physical_devices('GPU')}")
 mnist = tf.keras.datasets.mnist
 train, test = mnist.load_data()
 
+
+
+
 print('train:', train.shape)
 print('test:', test.shape)
 X = train.iloc[:, 1:785]
