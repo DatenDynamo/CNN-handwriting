@@ -1,7 +1,7 @@
 # my_plot.py
 import matplotlib.pyplot as plt
 
-def plot_training_history(history):
+def plot_training_history(history, accuracy_ylim_bottom=None, accuracy_ylim_top=None):
     plt.figure(figsize=(14, 5))
 
     plt.subplot(1, 2, 1)
@@ -19,5 +19,9 @@ def plot_training_history(history):
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend()
+
+    # Setzen der y-Achsen-Grenzen, falls spezifiziert
+    if accuracy_ylim_bottom is not None and accuracy_ylim_top is not None:
+        plt.ylim(accuracy_ylim_bottom, accuracy_ylim_top)
 
     plt.show()

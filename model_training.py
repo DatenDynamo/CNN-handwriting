@@ -4,8 +4,9 @@ from tensorflow.keras.layers import Dense, Dropout, Conv2D, MaxPool2D, Flatten
 from tensorflow.keras.optimizers import RMSprop
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ReduceLROnPlateau
+from keras.callbacks import EarlyStopping
 
-def train_model(X_train, Y_train, X_val, Y_val, input_shape, epochs=30):  # `epochs` als Parameter hinzufügen
+def train_model(X_train, Y_train, X_val, Y_val, input_shape, epochs=30, batch_size=128, early_stopping_enabled=True):  # `epochs` als Parameter hinzufügen
     model = Sequential([
         Conv2D(32, kernel_size=(5,5), padding='Same', activation='relu', input_shape=input_shape),
         Conv2D(32, kernel_size=(5,5), padding='Same', activation='relu'),
@@ -24,8 +25,6 @@ def train_model(X_train, Y_train, X_val, Y_val, input_shape, epochs=30):  # `epo
     optimizer = RMSprop(learning_rate=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
     model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
 
-    learning_rate_reduction = ReduceLROnPlateau(monitor='val_accuracy', patience=3, verbose=1, factor=0.5, min_lr=0.00001)
-
     datagen = ImageDataGenerator(
         featurewise_center=False,
         samplewise_center=False,
@@ -42,11 +41,39 @@ def train_model(X_train, Y_train, X_val, Y_val, input_shape, epochs=30):  # `epo
 
     datagen.fit(X_train)
 
-    history = model.fit(datagen.flow(X_train, Y_train, batch_size=86), 
-                        epochs=epochs,
-                        validation_data=(X_val, Y_val),
-                        verbose=2,
-                        steps_per_epoch=X_train.shape[0] // 86,
-                        callbacks=[learning_rate_reduction])
 
-    return model, history
+    
+    train_steps = X_train.shape[0] // batch_size
+    valid_steps = X_val.shape[0] // batch_size
+
+    callbacks = [ReduceLROnPlateau(
+        monitor="val_accuracy",
+        factor=0.2,
+        patience=3,
+        verbose=1,
+        mode="max",
+        min_lr=0.00001,
+    )]
+
+    early_stopping_callback = None
+    if early_stopping_enabled:
+        early_stopping_callback = EarlyStopping(
+            monitor="val_accuracy",
+            patience=10,
+            verbose=1,
+            mode="max",
+            restore_best_weights=True,
+        )
+        callbacks.append(early_stopping_callback)
+
+    history = model.fit(
+        datagen.flow(X_train, Y_train, batch_size=batch_size), 
+        epochs=epochs, 
+        validation_data=(X_val, Y_val),
+        validation_steps=valid_steps,
+        verbose=2,
+        steps_per_epoch=train_steps,
+        callbacks=callbacks
+    )
+
+    return model, history, callbacks, early_stopping_callback
