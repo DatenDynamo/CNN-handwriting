@@ -51,7 +51,13 @@ def main():
         'Seed' : SEED,
     }
 
-    save_best_parameters(test_loss, test_accuracy, parameters)
+    is_better = save_best_parameters(test_loss, test_accuracy, parameters)
+    
+    if is_better:
+        json_string = model.to_json()
+        open('model_architecture.json','w').write(json_string)
+        # Save the weights
+        model.save_weights('model_weights.h5',overwrite=True)
 
     # Trainingsverlauf plotten
     plot_training_history(history)

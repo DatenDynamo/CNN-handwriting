@@ -28,8 +28,10 @@ def save_best_parameters(test_loss, test_accuracy, parameters, file_path='best_p
         with open(file_path, 'w') as file:
             json.dump(best_parameters, file, indent=4)
         print("Neue beste Parameter und Metriken gespeichert.")
+        return True
     else:
         print("Die aktuellen Metriken sind nicht besser als die bisher besten.")
+        return False
 
 def load_best_parameters(file_path='best_parameters.json'):
     try:
