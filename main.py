@@ -10,7 +10,7 @@ from data_loader import save_best_parameters
 TEST_SIZE = 0.2 # Größe von den Validierungsdaten beim Split // Achtung: zum Testen des Modells wird IMMER der MNIST-Testdatensatz verwendet, siehe: https://ai.stackexchange.com/questions/37577/how-is-mnist-only-providing-the-training-and-the-test-sets-what-about-the-valid
 epochs = 150 # Anzahl der Epochen // bricht aber sowieso nach der "idealen" Anzahl ab wenn early_stopping_enabled 1 ist
 batch_size = 128
-SEED = 2
+SEED = 2 # Seed für Reproduzierbarkeit, damit Trainings- und Validierungsdatensatz immer gleich aufgeteilt werden
 early_stopping_enabled = 1
 
 def main():
