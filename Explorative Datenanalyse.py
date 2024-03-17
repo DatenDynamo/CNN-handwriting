@@ -1,4 +1,6 @@
 #Grafische Visaliserung von Daten#
+#https://www.kaggle.com/code/jedrzejdudzicz/mnist-dataset-100-accuracy#
+#https://github.com/as3eem/MNIST-Data-Analysis/blob/master/MNIST.ipynb#
 
 import numpy as np
 import matplotlib.pyplot as plt
