@@ -9,7 +9,7 @@ def plot_class_distribution(train_labels, test_labels):
     plt.xticks(np.arange(10))
     plt.xlabel('Klasse')
     plt.ylabel('Anzahl der Beispiele')
-    plt.title('Verteilung der Klassen im MNIST-Datensatz')
+    plt.title('Verteilung Klassen im MNIST-Datensatz')
     plt.legend()
     plt.show()
 
@@ -32,7 +32,7 @@ def plot_pixel_intensity_distribution(train_images, train_labels):
         plt.hist(train_images[train_labels == label].flatten(), bins=50, alpha=0.5, label=str(label))
     plt.xlabel('Pixelintensität')
     plt.ylabel('Häufigkeit')
-    plt.title('Verteilung der Pixelintensitäten nach Klassen')
+    plt.title('Verteilung Pixelintensitäten nach Klassen')
     plt.legend()
     plt.show()
 
