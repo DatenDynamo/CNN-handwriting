@@ -8,24 +8,26 @@ from keras.callbacks import EarlyStopping
 
 def train_model(X_train, Y_train, X_val, Y_val, input_shape, epochs=30, batch_size=128, early_stopping_enabled=True):  # `epochs` als Parameter hinzufügen
     model = Sequential([
+
         Conv2D(32, kernel_size=(5,5), padding='Same', activation='relu', input_shape=input_shape),
         Conv2D(32, kernel_size=(5,5), padding='Same', activation='relu'),
-        Conv2D(32, kernel_size=(5,5), padding='Same', activation='relu'),
-
         MaxPool2D(pool_size=(2,2)),
+
         Dropout(0.5),
 
-        Conv2D(64, kernel_size=(5,5), padding='Same', activation='gelu'),
-        Conv2D(64, kernel_size=(3,3), padding='Same', activation='gelu'),# extra Layer sorgt fpr stetiges 99.6
         Conv2D(64, kernel_size=(3,3), padding='Same', activation='gelu'),
-        
+        Conv2D(64, kernel_size=(3,3), padding='Same', activation='gelu'),
         MaxPool2D(pool_size=(2,2), strides=(2,2)),
-        Dropout(0.5),
 
+        Dropout(0.25),
+        
         Flatten(),
+
         Dense(128, activation="relu"),
         Dropout(0.5),
+
         Dense(10, activation="softmax")
+
     ])
 
     optimizer = RMSprop(learning_rate=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
