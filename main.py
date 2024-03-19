@@ -47,7 +47,7 @@ def main():
         'angegebene epochs': epochs,
         'tatsaelich benoetigte epochs': tatsaechlich_benoetigte_epochs,
         'batch_size': batch_size,
-        'Split der Testdaten:': TEST_SIZE,
+        'Split der Validierungsdaten:': TEST_SIZE,
         'Seed' : SEED,
     }
 
