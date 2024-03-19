@@ -1,0 +1,11 @@
+{
+    "test_loss": 0.010180938057601452,
+    "test_accuracy": 0.9972000122070312,
+    "parameters": {
+        "angegebene epochs": 150,
+        "tatsaelich benoetigte epochs": 44,
+        "batch_size": 128,
+        "Split der Testdaten:": 0.2,
+        "Seed": 2
+    }
+}
