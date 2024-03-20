@@ -25,7 +25,7 @@ def plot_training_history(history, accuracy_ylim_bottom=None, accuracy_ylim_top=
         plt.ylim(accuracy_ylim_bottom, accuracy_ylim_top)
 
     if save_plot:
-        plt.savefig("images\best.png")  # Speichert den Plot als PNG-Datei
+        plt.savefig("images/best.png")  # Speichert den Plot als PNG-Datei
         plt.close()
 
     plt.show()

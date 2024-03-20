@@ -6,11 +6,15 @@
 In diesem GitLab-Projekt wollen wir gemeinsam am Code arbeiten, um das Modul Künstliche Intelligenz I im Wintersemester 2023/24 abzuschließen. Ziel des Projekts ist die Bearbeitung der folgenden Aufgabe:
 >"Betrachten Sie den MNIST-Datensatz zur Handschriftenerkennung von Ziffern, wie in der Vorlesung betrachtet. Entwickeln Sie ein convolutional neural network (CNN) und vergleichen Sie Ihr Modell mit den in der Vorlesung behandelten Netzwerken."
 
-![Bild von Training](images/99-55_accuracy_100-Epochs.png)
+![Bild von Training](images/best.png)
 
 Aktueller Trainingshighscore:
 <!-- START -->
+**test_loss:** 0.009928709827363491
 
+**test_accuracy:** 0.9969000220298767
+
+**parameters:** {'angegebene epochs': 150, 'tatsaelich benoetigte epochs': 27, 'batch_size': 64, 'Split der Validierungsdaten:': 0.1, 'Seed': 2}
 
 <!-- END -->
 
