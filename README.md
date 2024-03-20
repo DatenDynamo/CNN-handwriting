@@ -10,11 +10,11 @@ In diesem GitLab-Projekt wollen wir gemeinsam am Code arbeiten, um das Modul Kü
 
 Aktueller Trainingshighscore:
 <!-- START -->
-**test_loss:** 0.009928709827363491
+**test_loss:** 0.012125306762754917
 
-**test_accuracy:** 0.9969000220298767
+**test_accuracy:** 0.9966999888420105
 
-**parameters:** {'angegebene epochs': 150, 'tatsaelich benoetigte epochs': 27, 'batch_size': 64, 'Split der Validierungsdaten:': 0.1, 'Seed': 2}
+**parameters:** {'angegebene epochs': 150, 'tatsaelich benoetigte epochs': 150, 'batch_size': 64, 'Split der Validierungsdaten:': 0.1, 'Seed': 2}
 
 <!-- END -->
 

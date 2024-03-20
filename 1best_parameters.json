@@ -1,9 +1,9 @@
 {
-    "test_loss": 0.012125306762754917,
-    "test_accuracy": 0.9966999888420105,
+    "test_loss": 0.009928709827363491,
+    "test_accuracy": 0.9969000220298767,
     "parameters": {
         "angegebene epochs": 150,
-        "tatsaelich benoetigte epochs": 150,
+        "tatsaelich benoetigte epochs": 27,
         "batch_size": 64,
         "Split der Validierungsdaten:": 0.1,
         "Seed": 2

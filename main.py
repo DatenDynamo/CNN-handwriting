@@ -11,7 +11,7 @@ TEST_SIZE = 0.1 # Größe von den Validierungsdaten beim Split // Achtung: zum T
 epochs = 150 # Anzahl der Epochen // bricht aber sowieso nach der "idealen" Anzahl ab wenn early_stopping_enabled TRUE ist
 batch_size = 64
 SEED = 2
-early_stopping_enabled = True
+early_stopping_enabled = False
 
 def main():
     # Daten laden
