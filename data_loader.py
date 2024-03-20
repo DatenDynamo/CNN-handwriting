@@ -30,7 +30,7 @@ def save_best_parameters(test_loss, test_accuracy, parameters, file_path='best_p
         print("Neue beste Parameter und Metriken gespeichert.")
         return True
     else:
-        print("Die aktuellen Metriken sind nicht besser als die bisher besten.")
+        print("Die aktuellen Metriken sind nicht besser als die bisher Besten.")
         return False
 
 def load_best_parameters(file_path='best_parameters.json'):

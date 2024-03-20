@@ -1,17 +1,17 @@
 # main.py
-from data_loader import load_mnist_data
+from pickle import TRUE
+from data_loader import load_mnist_data, load_best_parameters
 from data_preprocess import preprocess_data
 from model_training import train_model
 from my_plot import plot_training_history
-from data_loader import load_best_parameters
-from data_loader import save_best_parameters
+from data_saver import save_best_parameters, update_readme_from_json
 
 # Global festgelegte Parameter
-TEST_SIZE = 0.2 # Größe von den Validierungsdaten beim Split // Achtung: zum Testen des Modells wird IMMER der MNIST-Testdatensatz verwendet, siehe: https://ai.stackexchange.com/questions/37577/how-is-mnist-only-providing-the-training-and-the-test-sets-what-about-the-valid
-epochs = 150 # Anzahl der Epochen // bricht aber sowieso nach der "idealen" Anzahl ab wenn early_stopping_enabled 1 ist
-batch_size = 128
+TEST_SIZE = 0.1 # Größe von den Validierungsdaten beim Split // Achtung: zum Testen des Modells wird IMMER der MNIST-Testdatensatz verwendet, siehe: https://ai.stackexchange.com/questions/37577/how-is-mnist-only-providing-the-training-and-the-test-sets-what-about-the-valid
+epochs = 150 # Anzahl der Epochen // bricht aber sowieso nach der "idealen" Anzahl ab wenn early_stopping_enabled TRUE ist
+batch_size = 64
 SEED = 2
-early_stopping_enabled = 1
+early_stopping_enabled = True
 
 def main():
     # Daten laden
@@ -56,11 +56,24 @@ def main():
     if is_better:
         json_string = model.to_json()
         open('model_architecture.json','w').write(json_string)
+        
+        # Update readme
+        json_file_path = 'best_parameters.json'
+        readme_file_path = 'README.md'
+        start_marker = '<!-- START -->\n'
+        end_marker = '<!-- END -->\n'
+        update_readme_from_json(json_file_path, readme_file_path, start_marker, end_marker)
+
+
         # Save the weights
-        model.save_weights('model_weights.h5',overwrite=True)
+        model.save('model.h5',overwrite=True)
 
     # Trainingsverlauf plotten
-    plot_training_history(history)
+    if is_better:
+        plot_training_history(history, save_plot=True)
+    else:
+        plot_training_history(history, save_plot=False)
+
     plot_training_history(history, accuracy_ylim_bottom=0.97, accuracy_ylim_top=1.0)
 
 if __name__ == '__main__':

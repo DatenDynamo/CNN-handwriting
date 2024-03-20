@@ -8,7 +8,14 @@ In diesem GitLab-Projekt wollen wir gemeinsam am Code arbeiten, um das Modul Kü
 
 ![Bild von Training](images/99-55_accuracy_100-Epochs.png)
 
-Der aktuelle Highscore beim Training ist in der `best_parameters.json` zu finden.
+Aktueller Trainingshighscore:
+<!-- START -->
+
+
+<!-- END -->
+
+
+Der aktuelle Highscore beim Training ist auch in der `best_parameters.json` zu finden.
 
 ## Datenquelle
 

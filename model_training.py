@@ -1,28 +1,56 @@
 # model_training.py
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Conv2D, MaxPool2D, Flatten
-from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.layers import Dense, Dropout, Conv2D, MaxPool2D, Flatten, BatchNormalization
+from tensorflow.keras.optimizers import RMSprop, Adam
 from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import ReduceLROnPlateau
-from keras.callbacks import EarlyStopping
+from keras.callbacks import ReduceLROnPlateau, EarlyStopping, LearningRateScheduler
+import numpy as np
 
 def train_model(X_train, Y_train, X_val, Y_val, input_shape, epochs=30, batch_size=128, early_stopping_enabled=True):  # `epochs` als Parameter hinzufügen
     model = Sequential([
-        Conv2D(32, kernel_size=(5,5), padding='Same', activation='relu', input_shape=input_shape),
-        Conv2D(32, kernel_size=(5,5), padding='Same', activation='relu'),
-        MaxPool2D(pool_size=(2,2)),
+# Ursprünglich
+        # Conv2D(32, kernel_size=(5,5), padding='Same', activation='relu', input_shape=input_shape),
+        # Conv2D(32, kernel_size=(5,5), padding='Same', activation='relu'),
+        # MaxPool2D(pool_size=(2,2)),
+        # Dropout(0.25),
+        # Conv2D(64, kernel_size=(3,3), padding='Same', activation='relu'),
+        # Conv2D(64, kernel_size=(3,3), padding='Same', activation='relu'),
+        # MaxPool2D(pool_size=(2,2), strides=(2,2)),
+        # Dropout(0.25),
+        # Flatten(),
+        # Dense(256, activation="relu"),
+        # Dropout(0.5),
+        # Dense(10, activation="softmax")
+# TEST
+        Conv2D(32, kernel_size=(5, 5), padding='Same', activation='relu', input_shape=input_shape),
+        BatchNormalization(),
+        Conv2D(32, kernel_size=(5, 5), padding='Same', activation='relu'),
+        BatchNormalization(),
+        MaxPool2D(pool_size=(2, 2)),
+
         Dropout(0.25),
-        Conv2D(64, kernel_size=(3,3), padding='Same', activation='relu'),
-        Conv2D(64, kernel_size=(3,3), padding='Same', activation='relu'),
-        MaxPool2D(pool_size=(2,2), strides=(2,2)),
+
+        Conv2D(64, kernel_size=(3, 3), padding='Same', activation='relu'),
+        BatchNormalization(),
+        Conv2D(64, kernel_size=(3, 3), padding='Same', activation='relu'),
+        BatchNormalization(),
+        MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
+
         Dropout(0.25),
+
         Flatten(),
-        Dense(256, activation="relu"),
-        Dropout(0.5),
+        Dense(512, activation="relu"),
+        BatchNormalization(),
+        Dropout(0.25),
+        Dense(1024, activation="relu"),
+        BatchNormalization(),
+        Dropout(0.25),
         Dense(10, activation="softmax")
     ])
 
-    optimizer = RMSprop(learning_rate=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
+    #optimizer = RMSprop(learning_rate=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
+    
+    optimizer = Adam(learning_rate=0.001, beta_1=0.9, beta_2=0.999 )
     model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
 
     datagen = ImageDataGenerator(
@@ -41,10 +69,14 @@ def train_model(X_train, Y_train, X_val, Y_val, input_shape, epochs=30, batch_si
 
     datagen.fit(X_train)
 
-
-    
     train_steps = X_train.shape[0] // batch_size
     valid_steps = X_val.shape[0] // batch_size
+
+    # def lr_scheduler(epoch, lr):
+    #     if epoch > 1 and epoch % 10 == 0:
+    #         return lr * np.exp(-0.1)
+    #     else:
+    #         return lr
 
     callbacks = [ReduceLROnPlateau(
         monitor="val_accuracy",
