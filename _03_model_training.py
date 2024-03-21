@@ -1,4 +1,4 @@
-# model_training.py
+# _03_model_training.py
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Conv2D, MaxPool2D, Flatten, BatchNormalization
 from tensorflow.keras.optimizers import RMSprop, Adam

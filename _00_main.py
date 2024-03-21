@@ -1,10 +1,10 @@
-# main.py
+# 00_main.py
 from pickle import TRUE
-from data_loader import load_mnist_data, load_best_parameters
-from data_preprocess import preprocess_data
-from model_training import train_model
-from my_plot import plot_training_history
-from data_saver import save_best_parameters, update_readme_from_json
+from _01_data_loader import load_mnist_data, load_best_parameters
+from _02_data_preprocess import preprocess_data
+from _03_model_training import train_model
+from _04_data_saver import save_best_parameters, update_readme_from_json
+from _05_model_plot import plot_training_history
 
 # Global festgelegte Parameter
 TEST_SIZE = 0.1 # Größe von den Validierungsdaten beim Split // Achtung: zum Testen des Modells wird IMMER der MNIST-Testdatensatz verwendet, siehe: https://ai.stackexchange.com/questions/37577/how-is-mnist-only-providing-the-training-and-the-test-sets-what-about-the-valid

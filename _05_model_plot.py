@@ -1,4 +1,4 @@
-# my_plot.py
+# _05_model_plot.py
 import matplotlib.pyplot as plt
 
 def plot_training_history(history, accuracy_ylim_bottom=None, accuracy_ylim_top=None, save_plot=False):
