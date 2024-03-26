@@ -4,7 +4,7 @@ from _01_data_loader import load_mnist_data, load_best_parameters
 from _02_data_preprocess import preprocess_data
 from _03_model_training import train_model
 from _04_data_saver import save_best_parameters, update_readme_from_json
-from _05_model_plot import plot_training_history
+from _05_model_plot import plot_training_history, plot_activation_maps, plot_filters, visualize_embeddings
 
 # Global festgelegte Parameter
 TEST_SIZE = 0.1 # Größe von den Validierungsdaten beim Split // Achtung: zum Testen des Modells wird IMMER der MNIST-Testdatensatz verwendet, siehe: https://ai.stackexchange.com/questions/37577/how-is-mnist-only-providing-the-training-and-the-test-sets-what-about-the-valid
@@ -75,6 +75,13 @@ def main():
         plot_training_history(history, save_plot=False)
 
     plot_training_history(history, accuracy_ylim_bottom=0.97, accuracy_ylim_top=1.0)
+
+    plot_activation_maps(model, 'conv2d_1', test[0:1])
+
+    plot_filters(model.layers[0]) 
+
+    visualize_embeddings(model, 'dense_1', test, test_labels)  # Angenommen, 'dense_1' ist eine Ihrer tiefen Schichten
+
 
 if __name__ == '__main__':
     main()
