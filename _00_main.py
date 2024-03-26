@@ -4,8 +4,7 @@ from _01_data_loader import load_mnist_data, load_best_parameters
 from _02_data_preprocess import preprocess_data
 from _03_model_training import train_model
 from _04_data_saver import save_best_parameters, update_readme_from_json
-from _05_model_plot import plot_training_history
-
+from _05_model_plot import plot_training_history, plot_konfusionsmatrix, fehler_bestimmen, display_errors
 # Global festgelegte Parameter
 TEST_SIZE = 0.1 # Größe von den Validierungsdaten beim Split // Achtung: zum Testen des Modells wird IMMER der MNIST-Testdatensatz verwendet, siehe: https://ai.stackexchange.com/questions/37577/how-is-mnist-only-providing-the-training-and-the-test-sets-what-about-the-valid
 epochs = 150 # Anzahl der Epochen // bricht aber sowieso nach der "idealen" Anzahl ab wenn early_stopping_enabled TRUE ist
@@ -76,5 +75,19 @@ def main():
 
     plot_training_history(history, accuracy_ylim_bottom=0.97, accuracy_ylim_top=1.0)
 
+    # Konfusionsmatrix
+    Y_pred = model.predict(test)
+    plot_konfusionsmatrix(Y_test, Y_pred, is_better, klassen=range(10), titel='Konfusionsmatrix')
+
+    # Display some error results 
+    wichtigste_fehler, test_daten_fehler, Y_pred_klassen_fehler, Y_wahr_fehler = fehler_bestimmen(Y_test, Y_pred, test)
+    display_errors(wichtigste_fehler, test_daten_fehler, Y_pred_klassen_fehler, Y_wahr_fehler)
+    
+
+    if is_better:
+        return is_better
 if __name__ == '__main__':
     main()
+
+
+

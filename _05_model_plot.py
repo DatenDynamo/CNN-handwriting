@@ -1,5 +1,8 @@
 # _05_model_plot.py
 import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
 
 def plot_training_history(history, accuracy_ylim_bottom=None, accuracy_ylim_top=None, save_plot=False):
     plt.figure(figsize=(14, 5))
@@ -28,4 +31,89 @@ def plot_training_history(history, accuracy_ylim_bottom=None, accuracy_ylim_top=
         plt.savefig("images/best.png")  # Speichert den Plot als PNG-Datei
         plt.close()
 
-    plt.show()
+    #plt.show()
+
+
+# Konfusionmatrix
+
+
+def plot_konfusionsmatrix(Y_test, Y_pred, is_better, klassen=range(10), titel='Konfusionsmatrix'):
+    """
+    Diese Funktion plottet die Konfusionsmatrix.
+
+    Args:
+    - Y_test: Die wahren Klassen (labels) des Testdatensatzes (one hot encoded).
+    - Y_pred: Die vom Modell vorhergesagten Klassen (als Wahrscheinlichkeiten).
+    - ist_besser: Eine Boolesche Variable, die angibt, ob das aktuelle Modell besser ist als vorherige Modelle.
+    - klassen: Die Liste der Klassen, die im Datensatz vorkommen. Standardmäßig von 0 bis 9 für den MNIST-Datensatz.
+    - titel: Der Titel der Konfusionsmatrix.
+    """
+    # Vorhersagen in Klassen umwandeln
+    Y_pred_klassen = np.argmax(Y_pred, axis=1)
+    # Wahre Klassen aus one hot Vektoren umwandeln
+    Y_wahr = np.argmax(Y_test, axis=1)
+    # Konfusionsmatrix berechnen
+    konfusionsmatrix = confusion_matrix(Y_wahr, Y_pred_klassen)
+    # Konfusionsmatrix plotten
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(konfusionsmatrix, annot=True, fmt='d', cmap='Blues')
+    plt.tight_layout()
+    plt.title(titel)
+    plt.ylabel('Wahre Ziffer')
+    plt.xlabel('Durch Modell bestimmte Ziffer')
+    # Wenn das aktuelle Modell besser ist, speichere die Konfusionsmatrix
+    if is_better:
+        plt.savefig("images/beste_konfusionsmatrix.png")
+    #plt.show()
+
+
+# Display Errors
+
+def fehler_bestimmen(Y_test, Y_pred, test):
+    """Identifies and shows the most significant errors in the model's predictions."""
+    Y_pred_klassen = np.argmax(Y_pred, axis=1)
+    Y_wahr = np.argmax(Y_test, axis=1)
+    fehler = (Y_pred_klassen - Y_wahr != 0)
+
+    Y_pred_klassen_fehler = Y_pred_klassen[fehler]
+    Y_pred_fehler = Y_pred[fehler]
+    Y_wahr_fehler = Y_wahr[fehler]
+    test_daten_fehler = test[fehler]
+
+    # Probabilities of the incorrectly predicted numbers
+    Y_pred_fehler_wahrscheinlichkeit = np.max(Y_pred_fehler, axis=1)
+
+    # Predicted probabilities of the true values in the error set
+    true_prob_errors = np.diagonal(np.take(Y_pred_fehler, Y_wahr_fehler, axis=1))
+
+    # Difference between the probability of the predicted label and the true label
+    delta_pred_true_errors = Y_pred_fehler_wahrscheinlichkeit - true_prob_errors
+
+    # Sorted list of the delta prob errors
+    sorted_delta_errors = np.argsort(delta_pred_true_errors)
+
+    # Most significant errors
+    wichtigste_fehler = sorted_delta_errors[-9:]
+
+    return wichtigste_fehler, test_daten_fehler, Y_pred_klassen_fehler, Y_wahr_fehler
+   
+
+
+
+def display_errors(errors_index, img_errors, pred_errors, obs_errors):
+    """ This function shows images with their predicted and real labels for the provided indices."""
+    n = 0
+    ncols = 3
+    nrows = 3
+    
+    fig, ax = plt.subplots(nrows, ncols, sharex=True, sharey=True, figsize=(12, 12))
+    for row in range(nrows):
+        for col in range(ncols):
+            error = errors_index[n]
+            ax[row, col].imshow((img_errors[error]).reshape((28, 28)), cmap='gray_r') # Farben invertieren mit cmap='gray_r'
+            ax[row, col].set_title("Durch Modell bestimmte Ziffer: {}\nWahre Ziffer: {}".format(pred_errors[error], obs_errors[error]))
+            ax[row, col].axis('off')
+            n += 1
+    plt.tight_layout()
+    #plt.show()
+
