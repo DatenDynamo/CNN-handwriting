@@ -16,6 +16,8 @@ Aktueller Trainingshighscore:
 
 **parameters:** {'angegebene epochs': 150, 'tatsaelich benoetigte epochs': 150, 'batch_size': 64, 'Split der Validierungsdaten:': 0.1, 'Seed': 2}
 
+![Bild1 von Training](images/Figure_1.png)
+
 <!-- END -->
 
 
