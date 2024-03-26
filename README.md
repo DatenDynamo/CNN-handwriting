@@ -16,12 +16,29 @@ Aktueller Trainingshighscore:
 
 **parameters:** {'angegebene epochs': 150, 'tatsaelich benoetigte epochs': 150, 'batch_size': 64, 'Split der Validierungsdaten:': 0.1, 'Seed': 2}
 
-![Bild1 von Training](images/Figure_1.png)
 
 <!-- END -->
 
 
 Der aktuelle Highscore beim Training ist auch in der `best_parameters.json` zu finden.
+
+**test_accuracy:** 0.9965999722480774
+
+![Bild1 von Training](images/Figure_1.png)
+
+![Bild1 von Training](images/Figure_2.png)
+## Activation maps von erstem Conv
+
+![Bild1 von Training](images/Figure_3.png)
+
+## Filter
+
+![Bild1 von Training](images/Figure_4.png)
+
+## TSNE Plot
+
+![Bild1 von Training](images/Figure_5.png)
+
 
 ## Datenquelle
 
