@@ -26,7 +26,7 @@ def plot_training_history(history, accuracy_ylim_bottom=None, accuracy_ylim_top=
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend()
-
+    plt.style.use('ggplot')
     # Setzen der y-Achsen-Grenzen, falls spezifiziert
     if accuracy_ylim_bottom is not None and accuracy_ylim_top is not None:
         plt.ylim(accuracy_ylim_bottom, accuracy_ylim_top)
@@ -65,6 +65,7 @@ def plot_konfusionsmatrix(Y_test, Y_pred, is_better, klassen=range(10), titel='K
     plt.title(titel)
     plt.ylabel('Wahre Ziffer')
     plt.xlabel('Durch Modell bestimmte Ziffer')
+    plt.style.use('ggplot')
     # Wenn das aktuelle Modell besser ist, speichere die Konfusionsmatrix
     if is_better:
         plt.savefig("images/beste_konfusionsmatrix.png")
@@ -118,6 +119,7 @@ def display_errors(errors_index, img_errors, pred_errors, obs_errors):
             ax[row, col].axis('off')
             n += 1
     plt.tight_layout()
+    plt.style.use('ggplot')
     plt.show()
 
 
@@ -131,6 +133,7 @@ def plot_activation_maps(model, layer_name, input_image):
         plt.subplot(6, 6, i+1)
         plt.imshow(activation_map, cmap='viridis')
         plt.axis('off')
+    plt.style.use('ggplot')
     plt.show()
 
 def plot_filters(layer):
@@ -142,6 +145,7 @@ def plot_filters(layer):
         plt.subplot(6, 6, i+1)
         plt.imshow(filter, cmap='gray')
         plt.axis('off')
+    plt.style.use('ggplot')
     plt.show()
 
 
@@ -183,4 +187,5 @@ def visualize_embeddings(model, layer_name, input_data, labels, num_samples=1000
     plt.title(f'{method.upper()} visualized embeddings from {layer_name}')
     plt.xlabel('Component 1')
     plt.ylabel('Component 2')
+    plt.style.use('ggplot')
     plt.show()

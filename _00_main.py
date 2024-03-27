@@ -1,4 +1,4 @@
-# 00_main.py
+# _00_main.py
 from pickle import TRUE
 from _01_data_loader import load_mnist_data, load_best_parameters
 from _02_data_preprocess import preprocess_data
@@ -6,7 +6,7 @@ from _03_model_training import train_model
 from _04_data_saver import save_best_parameters, update_readme_from_json
 from _05_model_plot import plot_training_history, plot_activation_maps, plot_filters, visualize_embeddings, plot_konfusionsmatrix, fehler_bestimmen, display_errors
 # Global festgelegte Parameter
-TEST_SIZE = 0.1 # Größe von den Validierungsdaten beim Split // Achtung: zum Testen des Modells wird IMMER der MNIST-Testdatensatz verwendet, siehe: https://ai.stackexchange.com/questions/37577/how-is-mnist-only-providing-the-training-and-the-test-sets-what-about-the-valid
+VAL_SIZE = 0.1 # Größe von den Validierungsdaten beim Split // Achtung: zum Testen des Modells wird IMMER der MNIST-Testdatensatz verwendet, siehe: https://ai.stackexchange.com/questions/37577/how-is-mnist-only-providing-the-training-and-the-test-sets-what-about-the-valid
 epochs = 150 # Anzahl der Epochen // bricht aber sowieso nach der "idealen" Anzahl ab wenn early_stopping_enabled TRUE ist
 batch_size = 64
 SEED = 2
@@ -16,8 +16,8 @@ def main():
     # Daten laden
     train_images, train_labels, test_images, test_labels = load_mnist_data()
     
-    # Daten vorverarbeiten, mit dem global festgelegten Test Size
-    X_train, X_val, Y_train, Y_val, test, Y_test, input_shape = preprocess_data(train_images, train_labels, test_images, test_labels, test_size=TEST_SIZE, random_seed=SEED)
+    # Daten vorverarbeiten, mit dem global festgelegten Split für die Validierungsdaten
+    X_train, X_val, Y_train, Y_val, test, Y_test, input_shape = preprocess_data(train_images, train_labels, test_images, test_labels, val_size=VAL_SIZE, random_seed=SEED)
     
     best_parameters = load_best_parameters()
     if best_parameters:
@@ -46,7 +46,7 @@ def main():
         'angegebene epochs': epochs,
         'tatsaelich benoetigte epochs': tatsaechlich_benoetigte_epochs,
         'batch_size': batch_size,
-        'Split der Validierungsdaten:': TEST_SIZE,
+        'Split der Validierungsdaten:': VAL_SIZE,
         'Seed' : SEED,
     }
 
