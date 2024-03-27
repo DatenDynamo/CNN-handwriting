@@ -177,3 +177,7 @@ Das Projekt "CNN-HANDWRITING" besteht aus den folgenden Dateien:
 - `my_plot.py`: Bietet Funktionen zum Plotten von Trainings- und Validierungsverlust sowie Genauigkeit über die Epochen.
 
 Um das Projekt auszuführen und das Modell zu trainieren, starten Sie einfach `main.py` mit Python. Stellen Sie sicher, dass alle Abhängigkeiten gemäß den Anweisungen in "Installation und Abhängigkeiten" installiert sind.
+
+## Ausblick/To-Do
+
+ - Ensemble Learning
