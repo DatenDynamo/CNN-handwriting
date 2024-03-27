@@ -120,7 +120,7 @@ def display_errors(errors_index, img_errors, pred_errors, obs_errors):
     plt.tight_layout()
     plt.show()
 
-    def plot_activation_maps(model, layer_name, input_image):
+def plot_activation_maps(model, layer_name, input_image):
     """Zeigt die Aktivierungskarten/Feature-Maps einer spezifischen Schicht eines CNN für ein gegebenes Eingabebild."""
     intermediate_model = Model(inputs=model.input, outputs=model.get_layer(layer_name).output)
     intermediate_output = intermediate_model.predict(input_image)
