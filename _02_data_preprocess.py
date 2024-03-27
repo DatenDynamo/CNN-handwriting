@@ -19,6 +19,6 @@ def preprocess_data(train_images, train_labels, test_images, test_labels, val_si
     train_labels = tf.keras.utils.to_categorical(train_labels, 10)
     test_labels = tf.keras.utils.to_categorical(test_labels, 10)
 
-    X_train, X_val, Y_train, Y_val = train_test_split(train_images, train_labels, val_size=val_size, random_state=random_seed)
+    X_train, X_val, Y_train, Y_val = train_test_split(train_images, train_labels, test_size=val_size, random_state=random_seed)
 
     return X_train, X_val, Y_train, Y_val, test_images, test_labels, input_shape

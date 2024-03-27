@@ -7,7 +7,7 @@ from _04_data_saver import save_best_parameters, update_readme_from_json
 from _05_model_plot import plot_training_history, plot_activation_maps, plot_filters, visualize_embeddings, plot_konfusionsmatrix, fehler_bestimmen, display_errors
 # Global festgelegte Parameter
 VAL_SIZE = 0.1 # Größe von den Validierungsdaten beim Split // Achtung: zum Testen des Modells wird IMMER der MNIST-Testdatensatz verwendet, siehe: https://ai.stackexchange.com/questions/37577/how-is-mnist-only-providing-the-training-and-the-test-sets-what-about-the-valid
-epochs = 150 # Anzahl der Epochen // bricht aber sowieso nach der "idealen" Anzahl ab wenn early_stopping_enabled TRUE ist
+epochs = 2 # Anzahl der Epochen // bricht aber sowieso nach der "idealen" Anzahl ab wenn early_stopping_enabled TRUE ist
 batch_size = 64
 SEED = 2
 early_stopping_enabled = True
