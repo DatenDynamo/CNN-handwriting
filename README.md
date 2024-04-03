@@ -21,12 +21,6 @@ In diesem GitLab-Projekt wollen wir gemeinsam am Code arbeiten, um das Modul Kü
 
 Der aktuelle Highscore beim Training ist auch in der `best_parameters.json` zu finden.
 
-**test_accuracy:** 0.9965999722480774
-
-![Bild1 von Training](images/Figure_1.png)
-
-
-![Bild1 von Training](images/Figure_2.png)
 
 ## Activation maps von erstem Conv
 **Autor:** *MG*
@@ -100,10 +94,10 @@ Falls noch nicht installiert, laden Sie Anaconda von der [offiziellen Seite](htt
 
 #### Schritt 2: Erstellen einer virtuellen Umgebung
 
-Erstellen Sie eine neue virtuelle Umgebung z.B. tensorflow-gpu (oder ein anderer präferierter Name) mit Python 3.8:
+Erstellen Sie eine neue virtuelle Umgebung z.B. tensorflow-gpu (oder ein anderer präferierter Name) mit Python ~~3.8~~ 3.9:
 
 ```bash
-$ conda create -n tensorflow-gpu python=3.8
+$ conda create -n tensorflow-gpu python=3.9
 ```
 
 Aktivieren Sie die neu erstellte Umgebung:
@@ -114,18 +108,21 @@ $ conda activate tensorflow-gpu
 
 #### Schritt 3: Installation der benötigten Pakete
 
-Folgende Packages werden für unser Modell benötigt. Die abhängigen Packages sollten automatisch durch pip isntalliert werden.
+Folgende Packages werden für unser Modell benötigt. Die abhängigen Packages sollten automatisch durch pip installiert werden.
 
-| Name                   | Version              | Build            | Channel     |
-|------------------------|----------------------|------------------|-------------|
-| tensorflow             | 2.5.0                | pypi_0           | pypi        |
-| matplotlib             | 3.6.0                | pypi_0           | pypi        |
-| scikit-learn           | 1.3.2                | pypi_0           | pypi        |
+| Name                   | Version              |
+|------------------------|----------------------|
+| tensorflow             | 2.10.1               |
+| matplotlib             | 3.8.3                |
+| scikit-learn           | 1.4.1.post1          |
+| keras                  | 2.10.0               |
+| numpy                  | 1.26.4               |
+| seaborn                | 0.13.2               |
 
 Führen Sie für die Installation den folgenden Befehl in Ihrem (Anaconda-)Terminal bei aktiviertem "tensorflow-gpu" (o.Ä.) Enviroment aus:
 
 ```bash
-$ pip install tensorflow==2.5 matplotlib==3.6 scikit-learn==1.3.2
+$ pip install tensorflow==2.10.1 matplotlib==3.8.3 scikit-learn==1.4.1.post1 keras==2.10.0 numpy==1.26.4 seaborn==0.13.2
 ```
 
 ### Prüfen ob TensorFlow die GPU nutzt
@@ -164,13 +161,13 @@ coreClock: 1.48GHz coreCount: 10 deviceMemorySize: 6.00GiB deviceMemoryBandwidth
 **Autor:** *NF*
 ### Daten laden und vorverarbeiten
 
-Die Daten werden automatisch vom MNIST-Datensatz geladen und vorverarbeitet. Dies geschieht durch Ausführung der Skripte `data_loader.py` und `data_preprocess.py`, die für das Laden der Daten und deren Vorverarbeitung zuständig sind. Diese Schritte werden intern von der `main.py` Datei verwaltet, sodass keine manuelle Intervention erforderlich ist.
+Die Daten werden automatisch vom MNIST-Datensatz geladen und vorverarbeitet. Dies geschieht durch Ausführung der Skripte `_01_data_loader.py` und `_02_data_preprocess.py`, die für das Laden der Daten und deren Vorverarbeitung zuständig sind. Diese Schritte werden intern von der `_00_main.py` Datei verwaltet, sodass keine manuelle Intervention erforderlich ist.
 
 ### Modelltraining
 
-Das Training des Modells wird durch das Skript `model_training.py` verwaltet. Es definiert das CNN-Modell, führt das Training durch und wendet Methoden wie Early Stopping und Learning Rate Reduction an, um die Leistung des Modells zu optimieren.
+Das Training des Modells wird durch das Skript `_03_model_training.py` verwaltet. Es definiert das CNN-Modell, führt das Training durch und wendet Methoden wie Early Stopping und Learning Rate Reduction an, um die Leistung des Modells zu optimieren.
 
-Um das Training zu starten, führen Sie einfach die `main.py`-Datei aus:
+Um das Training zu starten, führen Sie einfach die `_00_main.py`-Datei aus:
 
 ```bash
 $ python main.py
@@ -223,28 +220,29 @@ Schließlich wird die Architektur durch Flatten- und Dense-Schichten vervollstä
 ## Konfigurationsmöglichkeiten
 **Autor:** *NF*
 
-Das Projekt bietet verschiedene Konfigurationsmöglichkeiten über die `main.py`-Datei:
+Das Projekt bietet verschiedene Konfigurationsmöglichkeiten über die `_00_main.py`-Datei:
 
-- `TEST_SIZE`: Legt den Anteil der Validierungsdaten fest.
-- `epochs`: Die maximale Anzahl der Trainingsepochen. Das Training kann aufgrund des Early Stoppings früher beendet werden.
-- `batch_size`: Die Größe der Batches während des Trainings.
-- `SEED`: Der Seed für den Zufallsgenerator, der für die Datenaufteilung verwendet wird.
-- `early_stopping_enabled`: Aktiviert oder deaktiviert das Early Stopping.
+- `VAL_SIZE`: Legt den relativen Anteil der Validierungsdaten fest (zwischen 0 und 1). Empfohlen wird ein Split von `0.1`.
+- `epochs`: Die maximale Anzahl der Trainingsepochen. Das Training kann aufgrund des Early Stoppings früher beendet werden. Empfohlen wird ein Wert <`40`.
+- `batch_size`: Die Größe der Batches während des Trainings. Empfohlen wird eine Größe von `64`.
+- `SEED`: Der Seed für den Zufallsgenerator, der für die Datenaufteilung verwendet wird. Bei der gemeinsamen Arbeit an unserem Modell nutzten wir den Seed `2`.
+- `early_stopping_enabled`: Aktiviert oder deaktiviert das Early Stopping (`True`oder `False`).
 
-Diese Einstellungen können direkt in der `main.py`-Datei angepasst werden, um das Training nach Bedarf zu konfigurieren.
+Diese Einstellungen können direkt in der `_00_main.py`-Datei angepasst werden, um das Training nach Bedarf zu konfigurieren.
 
 ## Dateistruktur
 **Autor:** *NF*
 
 Das Projekt "CNN-HANDWRITING" besteht aus den folgenden Dateien:
 
-- `README.md`: Diese Datei. Sie enthält eine Einführung in das Projekt, Installationsanweisungen, Nutzungsinformationen und eine Beschreibung der Dateistruktur.
-- `best_parameters.json`: Eine JSON-Datei, die automatisch erstellt wird, um die besten Parameter und Metriken des Trainings zu speichern. Diese Datei wird von `data_loader.py` verwendet, um bei zukünftigen Trainingsdurchläufen die besten Parameter zu laden und anzuwenden.
-- `data_loader.py`: Enthält Funktionen zum Laden des MNIST-Datensatzes und zum Speichern/Laden der besten Trainingsparameter.
-- `data_preprocess.py`: Beinhaltet die Vorverarbeitungslogik für die Bilddaten, einschließlich der Aufteilung in Trainings- und Validierungsdatensätze und der Normalisierung.
-- `main.py`: Der Hauptskript, der den gesamten Trainingsprozess orchestriert, von Datenladung und -vorverarbeitung bis hin zum Modelltraining und der Ergebnisanalyse.
-- `model_training.py`: Definiert das CNN-Modell und die Trainingsroutine, einschließlich Callbacks wie Early Stopping und Learning Rate Reduction.
-- `my_plot.py`: Bietet Funktionen zum Plotten von Trainings- und Validierungsverlust sowie Genauigkeit über die Epochen.
+- `README.md`: Diese Datei. Sie enthält eine Einführung in das Projekt, Installationsanweisungen, Nutzungsinformationen und eine Beschreibung der Dateistruktur sowie der Ergebnisse.
+- `best_parameters.json`: Eine JSON-Datei, die automatisch erstellt wird, um die besten Parameter und Metriken des Trainings zu speichern.
+- `_00_main.py`: Der Hauptskript, der den gesamten Trainingsprozess orchestriert, von Datenladung und -vorverarbeitung bis hin zum Modelltraining und der Ergebnisanalyse.
+- `_01_data_loader.py`: Enthält Funktionen zum Laden des MNIST-Datensatzes und zum Speichern/Laden der besten Trainingsparameter.
+- `_02_data_preprocess.py`: Beinhaltet die Vorverarbeitungslogik für die Bilddaten, einschließlich der Aufteilung in Trainings- und Validierungsdatensätze und der Normalisierung.
+- `_03_model_training.py`: Definiert das CNN-Modell und die Trainingsroutine, einschließlich Callbacks wie Early Stopping und Learning Rate Reduction.
+- `_04_data_saver.py`: Zuständig für das Speichern und Übertragen der Trainingsparameter und des Modells nach einem Training mit einem neuen Highscore bei Accuracy und Loss des CNN.
+- `_05_model_plot.py`: Bietet Funktionen zum Plotten von Trainings- und Validierungsverlust sowie Genauigkeit über die Epochen.
 
 Um das Projekt auszuführen und das Modell zu trainieren, starten Sie einfach `main.py` mit Python. Stellen Sie sicher, dass alle Abhängigkeiten gemäß den Anweisungen in "Installation und Abhängigkeiten" installiert sind.
 
