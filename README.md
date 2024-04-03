@@ -2,21 +2,20 @@
 
 
 ## Kurzbeschreibung
+**Autor:** *NF*
 
 In diesem GitLab-Projekt wollen wir gemeinsam am Code arbeiten, um das Modul Künstliche Intelligenz I im Wintersemester 2023/24 abzuschließen. Ziel des Projekts ist die Bearbeitung der folgenden Aufgabe:
 >"Betrachten Sie den MNIST-Datensatz zur Handschriftenerkennung von Ziffern, wie in der Vorlesung betrachtet. Entwickeln Sie ein convolutional neural network (CNN) und vergleichen Sie Ihr Modell mit den in der Vorlesung behandelten Netzwerken."
 
 ![Bild von Training](images/best.png)
 
-Aktueller Trainingshighscore:
+### Aktueller Trainingshighscore:
 <!-- START -->
 **test_loss:** 0.008994079194962978
 
 **test_accuracy:** 0.996999979019165
 
 **parameters:** {'angegebene epochs': 150, 'tatsaelich benoetigte epochs': 41, 'batch_size': 64, 'Split der Validierungsdaten:': 0.1, 'Seed': 2}
-
-
 <!-- END -->
 
 
@@ -26,24 +25,53 @@ Der aktuelle Highscore beim Training ist auch in der `best_parameters.json` zu f
 
 ![Bild1 von Training](images/Figure_1.png)
 
+
 ![Bild1 von Training](images/Figure_2.png)
+
 ## Activation maps von erstem Conv
+**Autor:** *MG*
 
 ![Bild1 von Training](images/Figure_3.png)
 
 ## Filter
+**Autor:** *MG*
 
 ![Bild1 von Training](images/Figure_4.png)
 
 ## TSNE Plot
+**Autor:** *MG*
 
 ![Bild1 von Training](images/Figure_5.png)
 
 
-## Datenquelle
+## Hintergrund MNIST Datensatz
 
-Der MNIST-Datensatz ist eine bekannte Datenquelle in der Welt des maschinellen Lernens, die zur Handschriftenerkennung von Ziffern verwendet wird. 
->The MNIST database (Modified National Institute of Standards and Technology database) is a large collection of handwritten digits. It has a training set of 60,000 examples, and a test set of 10,000 examples. It is a subset of a larger NIST Special Database 3 (digits written by employees of the United States Census Bureau) and Special Database 1 (digits written by high school students) which contain monochrome images of handwritten digits. The digits have been size-normalized and centered in a fixed-size image. The original black and white (bilevel) images from NIST were size normalized to fit in a 20x20 pixel box while preserving their aspect ratio. The resulting images contain grey levels as a result of the anti-aliasing technique used by the normalization algorithm. the images were centered in a 28x28 image by computing the center of mass of the pixels, and translating the image so as to position this point at the center of the 28x28 field. **Quelle: [TensorFlow](https://www.tensorflow.org/datasets/catalog/mnist)**
+**Autor:** *KK*
+
+Der MNIST (Modified National Institute of Standards and Technology database) Datensatz ist ein zahlenbasierter Datensatz mit knapp 70.000 Daten. Inhalt der daten sind handschriftlich geschriebene Zahlen von 0 bis 9 in 28x28 Pixel-Bildern, die auf individuelle Art und Weise aufgeschrieben worden sind.
+
+![KK Sample vom MNIST Datensatz](images/KK_MNIST_sample.png)
+![Durchschnitt aller Bilder](images/KK_Durchschnittsbilder.png)
+
+Von diesen 70.000 Daten sind 60.000 Trainingsdaten und 10.000 Testdaten. Die 60.000 Trainingsdaten sind, wie der Name schon verrät, da um das Modell zu trainieren. Die 10.000 Bilder in den Testdaten sind dafür da, um die trainierten Daten zu vergleichen.  Ziel ist es, mit Hilfe von neuronalen Netzen die Zahlen richtig zu erkennen und zu klassifizieren.  Mithilfe von diesem freizugänglichen Datensatz können Neuronale Netze erstellt werden, dadurch das maschinelle Lernen im Allgemeinen gefördert werden. Das Training und die Evaluierung von Algorithmen für die optische Zeichenerkennung (OCR) und das maschinelle Lernen verwendet.
+Auch kann man diese Daten in verschiedensten Varianten visuell aufzeigen. In den folgenden Bildern wurden die Daten in beispielsweise Cluster, PCA und t-SNE Visualisierung, da diese unserer Meinung nach die besten sind. Mit dem Cluster sollen die Daten gruppiert werden und unterschiedlich zu anderen Gruppen (Clustern) gemacht werden.
+
+![Cluster](images/KK_Cluster.png)
+
+Desweiteren wurde eine Prinicpal Compotent Analysis (PCA) Darstellung erzeugt. Die PCA soll Date mit hohen bzw. vielen Dimensionen sollen damit verstädnlicher gemacht werden indem man die Dimemsionen reduziert. Dabei sollen viele Varioatienen beibehalten werden. PCA transformiert die Daten in einen neuen Merkmalsraum, der durch die Hauptkomponenten definiert wird. Diese Hauptkomponenten sind die linearen Kombinationen der ursprünglichen Merkmale, die die maximale Varianz im Datensatz erklären.
+
+![PCA](images/KK_PCA.png)
+
+Und als letztes wurde der Datensatz mithilfe der t-Distributed Stochastic Neighbor Embedding (t-SNE) Methode visualisiert. Auch diese Methode wird genutzt, um die hochdimensionalen Räume zu vereinfachen bzw. diese zu reduzieren. Aber im Gegensatz zum PCA Prinzip, wird hier versucht die Merkmale im gleichen Datenraum beizubehalten.
+
+![tSNE](images/KK_tSNE.png)
+
+**Quellen:**
+- **[https://docs.ultralytics.com/de/datasets/classify/mnist](https://docs.ultralytics.com/de/datasets/classify/mnist)**
+- **[https://www.tensorflow.org/datasets/catalog/mnist](https://www.tensorflow.org/datasets/catalog/mnist)**
+
+## Laden der Daten
+**Autor:** *NF*
 
 Die Daten werden direkt über TensorFlow wie folgt abgerufen:
 
@@ -57,6 +85,7 @@ def load_mnist_data():
 Die anschließende Datentransformation und -vorbereitung wird in einem späteren Abschnitt der Dokumentation eingehend betrachtet.
 
 ## Installation und Einrichtung
+**Autor:** *NF*
 
 ### GPU-Unterstützung für TensorFlow
 
@@ -132,7 +161,7 @@ coreClock: 1.48GHz coreCount: 10 deviceMemorySize: 6.00GiB deviceMemoryBandwidth
 ```
 
 ## Anleitung zur Benutzung
-
+**Autor:** *NF*
 ### Daten laden und vorverarbeiten
 
 Die Daten werden automatisch vom MNIST-Datensatz geladen und vorverarbeitet. Dies geschieht durch Ausführung der Skripte `data_loader.py` und `data_preprocess.py`, die für das Laden der Daten und deren Vorverarbeitung zuständig sind. Diese Schritte werden intern von der `main.py` Datei verwaltet, sodass keine manuelle Intervention erforderlich ist.
@@ -148,11 +177,51 @@ $ python main.py
 ```
 
 
-### Modellbewertung und Ergebnisanalyse
+## Ergebnisse der CNN-Entwicklung für den MNIST-Datensatz
+**Autor:** *NF*
 
-Nach dem Training wird das Modell automatisch mit dem Testdatensatz bewertet, und die Testverlust und -genauigkeit werden angezeigt. Darüber hinaus wird der Trainingsverlauf, einschließlich Trainings- und Validierungsverlust sowie -genauigkeit, mit Hilfe von Matplotlib geplottet. Diese Visualisierung hilft Ihnen, die Leistung Ihres Modells über die Zeit zu analysieren.
+Im Rahmen des Moduls Künstliche Intelligenz I stellten wir uns der Herausforderung ein Convolutional Neural Network (CNN) für die Handschriftenerkennung auf Basis des MNIST-Datensatzes zu entwickeln. Ziel war es, ein Modell zu entwerfen, das nicht nur präzise Vorhersagen trifft, sondern auch im Vergleich zu den in der Vorlesung behandelten Netzwerken überlegen ist.
+
+Dabei haben wir für unser Modell bei unserem zweiten Gruppentreffen das gemeinsame Ziel wie folgt spezifiziert:
+
+>Das CNN soll eine **Genauigkeit** von über 99,5 % auf den Testdatensatz erreichen, bei gleichzeitiger **Vermeidung von Overfitting** und ohne erheblichen **Rechenaufwand**. 
+
+Nach dem Training wird das Modell automatisch mit dem Testdatensatz bewertet, und die Testverlust und -genauigkeit werden angezeigt. Darüber hinaus wird der Trainingsverlauf, einschließlich Trainings- und Validierungsverlust sowie -genauigkeit, mit Hilfe von Matplotlib geplottet. Diese Visualisierung hilft, die Leistung des Modells über die Zeit zu analysieren.
+
+### Modellarchitektur
+
+#### Modelle der Vorlesung
+ Ausgangspunkt für die Architektur unseres CNN waren dabei die in der Vorlesung vorgestellten vier Modelle welche jeweils eine Genauigkeit auf den Testdatensatz zwischen 98,95 % und 99,27 % erreichten:
+ 
+ | Name                   | Loss          | Accuracy         |
+ |------------------------|---------------|------------------|
+ | model_simple_conv      | 0,1163        | 0,9895           |
+ | model_drop_conv        | 0,0359        | 0,9921           |
+ | model_drop_move_conv   | 0,0293        | 0,9921           |
+ | model_drop_full_conv   | 0,0250        | 0,9927           |
+
+Das erste Modell in der Reihe ist ein einfaches CNN, welches aus einer *Convolutional Layer*, einer *MaxPooling Layer* zur Reduzierung der Dimensionalität, einer *Flatten Layer* zur Umwandlung der 2D-Ausgaben in einen Vektor, gefolgt von einer *Dense Layer* für die Klassifizierung und einer *Output Layer* mit *Softmax-Aktivierung*.
+
+Das zweite Modell baut auf dem ersten auf, indem es eine *Dropout-Layer* einführt, um das Overfitting zu reduzieren. Durch das zufällige Deaktivieren von Neuronen während des Trainings wird eine robustere und generalisierbare Modellstruktur geschaffen. Diese zusätzliche Regularisierungsschicht soll die Modellperformance auf unbekannten Daten verbessern, indem sie eine bessere Generalisierung fördert.
+
+Das dritte Modell erweitert das Konzept weiter durch Einführung von *Data Augmentation*. Zusätzlich zur Dropout-Layer wird das Modell mit einem Datensatz trainiert, der durch das Verschieben der ursprünglichen Bilder in verschiedene Richtungen vergrößert wurde. Diese Technik zielt darauf ab, die Robustheit des Modells gegenüber Verschiebungen und Veränderungen in den Eingabedaten zu erhöhen, indem es lernt, wichtige Merkmale unabhängig von ihrer Position im Bild zu erkennen.
+
+Schließlich integriert das vierte Modell neben der Dropout-Regulierung und den Verschiebungen auch Rotationen in die Data Augmentation, um das Trainingsspektrum noch weiter zu erweitern. Dabei werden die Bilder zufällig zwischen -30° und +30° gedreht. Diese Kombination von Techniken zielt darauf ab, das CNN noch flexibler und widerstandsfähiger gegenüber einer Vielzahl von Bildvariationen zu machen. Durch das Training mit einem so diversifizierten Datensatz strebt das vierte Modell die höchste Generalisierungsfähigkeit und Leistung unter den vier Ansätzen an.
+
+#### Unser Modell
+Unser Modell besteht aus mehreren *Convolutional* (*Conv2D*) und *MaxPooling2D*-Schichten, gefolgt von *Dropout*-Schichten, einer *Flatten*-Schicht und mehreren *Dense*-Schichten, die in eine *Softmax*-Aktivierungsfunktion münden.
+
+Die Architektur beginnt mit *Conv2D*-Schichten, die die Grundlage der Feature-Extraktion bilden. Diese Schichten wenden Filter auf die Eingabebilder an, um Merkmale wie Kanten, Ecken und Texturen zu identifizieren. Die Nutzung von 5x5-Filtern gefolgt von 3x3-Filtern ermöglicht es dem Netzwerk, zunächst breitere Muster zu erkennen und daraufhin detailliertere, feinere Strukturen zu erfassen.
+
+Um den Lernprozess weiter zu optimieren und zu stabilisieren, folgt auf jede Conv2D-Schicht eine BatchNormalization. Wir haben durch Experimentieren festgestellt, dass durch die BatchNormalization nach jedem Schritt, dass Modell schneller während des Trainings konvergiert und weniger empfindlich auf kleine Schwankungen in den Trainingsdaten reagiert. Das Resultat ist eine Reduzierung des Overfittings.
+
+Zur Reduktion der Komplexität und weiteren Vermeidung von Overfitting tragen MaxPooling2D-Schichten bei. Sie verringern die räumlichen Dimensionen der Feature-Maps, wodurch die Anzahl der Parameter reduziert und die Rechenanforderungen gesenkt werden. Diese Verringerung zwingt das Netzwerk, sich auf die wesentlichsten Merkmale zu konzentrieren, was die Generalisierungsfähigkeit des Modells verbessert.
+
+Ein weiterer wichtiger Aspekt der Architektur ist die Integration von Dropout als Regularisierungstechnik. Durch das zufällige Nullsetzen von Neuronenausgaben während des Trainings wird eine zu starke Abhängigkeit von den Trainingsdaten vermieden. Diese Methode fördert eine robuste Feature-Erkennung, die auf neuen, unbekannten Daten gut generalisiert.
+Schließlich wird die Architektur durch Flatten- und Dense-Schichten vervollständigt, die die extrahierten und verarbeiteten Merkmale in Klassifikationswahrscheinlichkeiten umwandeln. Die Flatten-Schicht konvertiert die 2D-Feature-Maps in einen eindimensionalen Vektor, der von den Dense-Schichten verarbeitet wird. Die letzte Schicht nutzt die Softmax-Funktion, um die Zugehörigkeit eines Bildes zu einer der 10 Ziffernklassen in Form von Wahrscheinlichkeiten auszudrücken. 
 
 ## Konfigurationsmöglichkeiten
+**Autor:** *NF*
 
 Das Projekt bietet verschiedene Konfigurationsmöglichkeiten über die `main.py`-Datei:
 
@@ -165,6 +234,7 @@ Das Projekt bietet verschiedene Konfigurationsmöglichkeiten über die `main.py`
 Diese Einstellungen können direkt in der `main.py`-Datei angepasst werden, um das Training nach Bedarf zu konfigurieren.
 
 ## Dateistruktur
+**Autor:** *NF*
 
 Das Projekt "CNN-HANDWRITING" besteht aus den folgenden Dateien:
 
@@ -179,5 +249,5 @@ Das Projekt "CNN-HANDWRITING" besteht aus den folgenden Dateien:
 Um das Projekt auszuführen und das Modell zu trainieren, starten Sie einfach `main.py` mit Python. Stellen Sie sicher, dass alle Abhängigkeiten gemäß den Anweisungen in "Installation und Abhängigkeiten" installiert sind.
 
 ## Ausblick/To-Do
-
+**Autor:** *NF*
  - Ensemble Learning
