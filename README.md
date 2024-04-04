@@ -308,3 +308,4 @@ Um das Projekt auszuführen und das Modell zu trainieren, starten Sie einfach `_
 ## Ausblick/To-Do
 **Autor:** *NF*
  - Ensemble Learning
+ - verschiedene Testdatensätze
