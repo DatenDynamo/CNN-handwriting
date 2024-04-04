@@ -64,10 +64,10 @@ Und schließlich wurde der Datensatz mithilfe der t-Distributed Stochastic Neigh
 **Quellen:**
 - **[https://docs.ultralytics.com/de/datasets/classify/mnist](https://docs.ultralytics.com/de/datasets/classify/mnist)**
 - **[https://www.tensorflow.org/datasets/catalog/mnist](https://www.tensorflow.org/datasets/catalog/mnist)**
-- **[https://www.kaggle.com/code/parulpandey/visualizing-kannada-mnist-with-t-sne]**
-- **[https://ranasinghiitkgp.medium.com/principal-component-analysis-pca-with-code-on-mnist-dataset-da7de0d07c22]**
-- **[https://gist.github.com/tommct/1490cdf856d745ba41c1ac99ada2b579]**
-- **[https://github.com/sharmaroshan/MNIST-Using-K-means/blob/master/KMeans%20Clustering%20for%20Imagery%20Analysis%20(Jupyter%20Notebook).ipynb]**
+- **[https://www.kaggle.com/code/parulpandey/visualizing-kannada-mnist-with-t-sne]**(https://www.kaggle.com/code/parulpandey/visualizing-kannada-mnist-with-t-sne)
+- **[https://ranasinghiitkgp.medium.com/principal-component-analysis-pca-with-code-on-mnist-dataset-da7de0d07c22]** (https://ranasinghiitkgp.medium.com/principal-component-analysis-pca-with-code-on-mnist-dataset-da7de0d07c22)
+- **[https://gist.github.com/tommct/1490cdf856d745ba41c1ac99ada2b579]** (https://gist.github.com/tommct/1490cdf856d745ba41c1ac99ada2b579)
+- **[https://github.com/sharmaroshan/MNIST-Using-K-means/blob/master/KMeans%20Clustering%20for%20Imagery%20Analysis%20(Jupyter%20Notebook).ipynb]** (https://github.com/sharmaroshan/MNIST-Using-K-means/blob/master/KMeans%20Clustering%20for%20Imagery%20Analysis%20(Jupyter%20Notebook).ipynb)
 
 ## Laden der Daten
 **Autor:** *NF*
