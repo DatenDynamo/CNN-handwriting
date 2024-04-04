@@ -170,7 +170,7 @@ Das Training des Modells wird durch das Skript `_03_model_training.py` verwaltet
 Um das Training zu starten, führen Sie einfach die `_00_main.py`-Datei aus:
 
 ```bash
-$ python main.py
+$ python _00_main.py
 ```
 
 
