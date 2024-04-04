@@ -42,27 +42,32 @@ Der aktuelle Highscore beim Training ist auch in der `best_parameters.json` zu f
 
 **Autor:** *KK*
 
-Der MNIST (Modified National Institute of Standards and Technology database) Datensatz ist ein zahlenbasierter Datensatz mit knapp 70.000 Daten. Inhalt der daten sind handschriftlich geschriebene Zahlen von 0 bis 9 in 28x28 Pixel-Bildern, die auf individuelle Art und Weise aufgeschrieben worden sind.
+Der MNIST (Modified National Institute of Standards and Technology database) Datensatz ist ein zahlenbasierter Datensatz mit knapp 70.000 Daten. Inhalt der Daten sind handschriftlich geschriebene Zahlen von 0 bis 9 in 28x28 Pixel-Bildern, die auf individuelle Weise geschrieben wurden.
 
 ![KK Sample vom MNIST Datensatz](images/KK_MNIST_sample.png)
 ![Durchschnitt aller Bilder](images/KK_Durchschnittsbilder.png)
 
-Von diesen 70.000 Daten sind 60.000 Trainingsdaten und 10.000 Testdaten. Die 60.000 Trainingsdaten sind, wie der Name schon verrät, da um das Modell zu trainieren. Die 10.000 Bilder in den Testdaten sind dafür da, um die trainierten Daten zu vergleichen.  Ziel ist es, mit Hilfe von neuronalen Netzen die Zahlen richtig zu erkennen und zu klassifizieren.  Mithilfe von diesem freizugänglichen Datensatz können Neuronale Netze erstellt werden, dadurch das maschinelle Lernen im Allgemeinen gefördert werden. Das Training und die Evaluierung von Algorithmen für die optische Zeichenerkennung (OCR) und das maschinelle Lernen verwendet.
-Auch kann man diese Daten in verschiedensten Varianten visuell aufzeigen. In den folgenden Bildern wurden die Daten in beispielsweise Cluster, PCA und t-SNE Visualisierung, da diese unserer Meinung nach die besten sind. Mit dem Cluster sollen die Daten gruppiert werden und unterschiedlich zu anderen Gruppen (Clustern) gemacht werden.
+Von diesen 70.000 Daten sind 60.000 Trainingsdaten und 10.000 Testdaten. Die 60.000 Trainingsdaten sind dazu bestimmt, das Modell zu trainieren, wie der Name bereits impliziert. Die 10.000 Bilder in den Testdaten dienen dazu, die Leistung des trainierten Modells zu evaluieren. Das Ziel besteht darin, mithilfe neuronaler Netze die Zahlen korrekt zu erkennen und zu klassifizieren. Dies ermöglicht die Förderung des maschinellen Lernens im Allgemeinen.
+
+Auch kann man diese Daten in verschiedensten Varianten visualisieren. In den folgenden Bildern wurden die Daten zum Beispiel in Cluster, PCA und t-SNE Visualisierung dargestellt, da diese unserer Meinung nach die besten sind. Mit dem Cluster sollen die Daten gruppiert und von anderen Gruppen (Clustern) unterschieden werden.
 
 ![Cluster](images/KK_Cluster.png)
 
-Desweiteren wurde eine Prinicpal Compotent Analysis (PCA) Darstellung erzeugt. Die PCA soll Date mit hohen bzw. vielen Dimensionen sollen damit verstädnlicher gemacht werden indem man die Dimemsionen reduziert. Dabei sollen viele Varioatienen beibehalten werden. PCA transformiert die Daten in einen neuen Merkmalsraum, der durch die Hauptkomponenten definiert wird. Diese Hauptkomponenten sind die linearen Kombinationen der ursprünglichen Merkmale, die die maximale Varianz im Datensatz erklären.
+Des Weiteren wurde eine Principal Component Analysis (PCA) Darstellung erzeugt. Die PCA soll dazu beitragen, Daten mit hohen bzw. vielen Dimensionen verständlicher zu machen, indem die Dimensionen reduziert werden. Dabei sollen viele Variationen beibehalten werden. PCA transformiert die Daten in einen neuen Merkmalsraum, der durch die Hauptkomponenten definiert wird. Diese Hauptkomponenten sind lineare Kombinationen der ursprünglichen Merkmale, die die maximale Varianz im Datensatz erklären.
 
 ![PCA](images/KK_PCA.png)
 
-Und als letztes wurde der Datensatz mithilfe der t-Distributed Stochastic Neighbor Embedding (t-SNE) Methode visualisiert. Auch diese Methode wird genutzt, um die hochdimensionalen Räume zu vereinfachen bzw. diese zu reduzieren. Aber im Gegensatz zum PCA Prinzip, wird hier versucht die Merkmale im gleichen Datenraum beizubehalten.
+Und schließlich wurde der Datensatz mithilfe der t-Distributed Stochastic Neighbor Embedding (t-SNE)-Methode visualisiert. Auch diese Methode wird genutzt, um hochdimensionale Räume zu vereinfachen bzw. zu reduzieren. Im Gegensatz zum Prinzip der PCA wird hier versucht, die Merkmale im gleichen Datenraum beizubehalten.
 
 ![tSNE](images/KK_tSNE.png)
 
 **Quellen:**
 - **[https://docs.ultralytics.com/de/datasets/classify/mnist](https://docs.ultralytics.com/de/datasets/classify/mnist)**
 - **[https://www.tensorflow.org/datasets/catalog/mnist](https://www.tensorflow.org/datasets/catalog/mnist)**
+- **[https://www.kaggle.com/code/parulpandey/visualizing-kannada-mnist-with-t-sne]**
+- **[https://ranasinghiitkgp.medium.com/principal-component-analysis-pca-with-code-on-mnist-dataset-da7de0d07c22]**
+- **[https://gist.github.com/tommct/1490cdf856d745ba41c1ac99ada2b579]**
+- **[https://github.com/sharmaroshan/MNIST-Using-K-means/blob/master/KMeans%20Clustering%20for%20Imagery%20Analysis%20(Jupyter%20Notebook).ipynb]**
 
 ## Laden der Daten
 **Autor:** *NF*
