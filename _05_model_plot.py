@@ -41,41 +41,44 @@ def plot_training_history(history, accuracy_ylim_bottom=None, accuracy_ylim_top=
 # Konfusionmatrix
 
 
-def plot_konfusionsmatrix(Y_test, Y_pred, is_better, klassen=range(10), titel='Konfusionsmatrix'):
-    """
-    Diese Funktion plottet die Konfusionsmatrix.
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
 
-    Args:
-    - Y_test: Die wahren Klassen (labels) des Testdatensatzes (one hot encoded).
-    - Y_pred: Die vom Modell vorhergesagten Klassen (als Wahrscheinlichkeiten).
-    - ist_besser: Eine Boolesche Variable, die angibt, ob das aktuelle Modell besser ist als vorherige Modelle.
-    - klassen: Die Liste der Klassen, die im Datensatz vorkommen. Standardmäßig von 0 bis 9 für den MNIST-Datensatz.
-    - titel: Der Titel der Konfusionsmatrix.
-    """
-    # Vorhersagen in Klassen umwandeln
+def plot_konfusionsmatrix(Y_test, Y_pred, is_better, klassen=range(10), titel='Konfusionsmatrix', save_plot=False):
     Y_pred_klassen = np.argmax(Y_pred, axis=1)
-    # Wahre Klassen aus one hot Vektoren umwandeln
     Y_wahr = np.argmax(Y_test, axis=1)
-    # Konfusionsmatrix berechnen
     konfusionsmatrix = confusion_matrix(Y_wahr, Y_pred_klassen)
-    # Konfusionsmatrix plotten
+
+    mask_zero = konfusionsmatrix == 0
+    mask_diagonal = np.eye(len(klassen), dtype=bool)
+
     plt.figure(figsize=(10, 8))
-    sns.heatmap(konfusionsmatrix, annot=True, fmt='d', cmap='Blues')
-    plt.tight_layout()
+
+    # Anpassung für nicht-diagonale Werte
+    # Maskiere diagonale Werte, um Kontrast für nicht-diagonale Werte zu erhöhen
+    sns.heatmap(konfusionsmatrix, mask=mask_diagonal | mask_zero, annot=True, fmt='d', cmap='Reds', cbar=False)
+
+    # Diagonale separat hinzufügen für klare Unterscheidung
+    sns.heatmap(konfusionsmatrix, mask=~mask_diagonal, annot=True, fmt='d', cmap=['green'], cbar=False)
+
     plt.title(titel)
     plt.ylabel('Wahre Ziffer')
     plt.xlabel('Durch Modell bestimmte Ziffer')
+    plt.tight_layout()
     plt.style.use('ggplot')
-    # Wenn das aktuelle Modell besser ist, speichere die Konfusionsmatrix
-    if is_better:
-        plt.savefig("images/beste_konfusionsmatrix.png")
-    plt.show()
 
+    if save_plot:
+        plt.savefig("images/beste_konfusionsmatrix.png")  # Speichert den Plot als PNG-Datei
+        plt.close()
+
+    plt.show()
 
 # Display Errors
 
 def fehler_bestimmen(Y_test, Y_pred, test):
-    """Identifies and shows the most significant errors in the model's predictions."""
+    """Identifiziert und zeigt die signifikantesten Fehler in den Vorhersagen des Modells."""
     Y_pred_klassen = np.argmax(Y_pred, axis=1)
     Y_wahr = np.argmax(Y_test, axis=1)
     fehler = (Y_pred_klassen - Y_wahr != 0)
@@ -85,27 +88,25 @@ def fehler_bestimmen(Y_test, Y_pred, test):
     Y_wahr_fehler = Y_wahr[fehler]
     test_daten_fehler = test[fehler]
 
-    # Probabilities of the incorrectly predicted numbers
+    # Wahrscheinlichkeiten der falsch vorhergesagten Zahlen
     Y_pred_fehler_wahrscheinlichkeit = np.max(Y_pred_fehler, axis=1)
 
-    # Predicted probabilities of the true values in the error set
+    # Vorhergesagte Wahrscheinlichkeiten der wahren Werte im Fehler-Set
     true_prob_errors = np.diagonal(np.take(Y_pred_fehler, Y_wahr_fehler, axis=1))
 
-    # Difference between the probability of the predicted label and the true label
+    # Unterschied zwischen der Wahrscheinlichkeit des vorhergesagten Labels und des wahren Labels
     delta_pred_true_errors = Y_pred_fehler_wahrscheinlichkeit - true_prob_errors
 
-    # Sorted list of the delta prob errors
+    # Sortierte Liste der Differenz in den Wahrscheinlichkeiten
     sorted_delta_errors = np.argsort(delta_pred_true_errors)
 
-    # Most significant errors
+    # Signifikanteste Fehler
     wichtigste_fehler = sorted_delta_errors[-9:]
 
-    return wichtigste_fehler, test_daten_fehler, Y_pred_klassen_fehler, Y_wahr_fehler
-   
+    return wichtigste_fehler, test_daten_fehler, Y_pred_klassen_fehler, Y_wahr_fehler, delta_pred_true_errors[wichtigste_fehler]
 
-
-def display_errors(errors_index, img_errors, pred_errors, obs_errors):
-    """ This function shows images with their predicted and real labels for the provided indices."""
+def display_errors(errors_index, img_errors, pred_errors, obs_errors, delta_errors, save_plot=False):
+    """Diese Funktion zeigt Bilder mit ihren vorhergesagten und tatsächlichen Labels für die angegebenen Indizes."""
     n = 0
     ncols = 3
     nrows = 3
@@ -115,11 +116,14 @@ def display_errors(errors_index, img_errors, pred_errors, obs_errors):
         for col in range(ncols):
             error = errors_index[n]
             ax[row, col].imshow((img_errors[error]).reshape((28, 28)), cmap='gray_r') # Farben invertieren mit cmap='gray_r'
-            ax[row, col].set_title("Durch Modell bestimmte Ziffer: {}\nWahre Ziffer: {}".format(pred_errors[error], obs_errors[error]))
+            ax[row, col].set_title("Durch Modell bestimmte Ziffer: {}\nWahre Ziffer: {}\nDiff. zw. vorherg.\n& wahrer Wahrsch.: {:.2f}".format(pred_errors[error], obs_errors[error], delta_errors[n]))
             ax[row, col].axis('off')
             n += 1
     plt.tight_layout()
     plt.style.use('ggplot')
+    if save_plot:
+        plt.savefig("images/biggest_fails.png")  # Speichert den Plot als PNG-Datei
+        plt.close()
     plt.show()
 
 

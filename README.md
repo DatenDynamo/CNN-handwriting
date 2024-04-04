@@ -205,17 +205,76 @@ Das dritte Modell erweitert das Konzept weiter durch Einführung von *Data Augme
 
 Schließlich integriert das vierte Modell neben der Dropout-Regulierung und den Verschiebungen auch Rotationen in die Data Augmentation, um das Trainingsspektrum noch weiter zu erweitern. Dabei werden die Bilder zufällig zwischen -30° und +30° gedreht. Diese Kombination von Techniken zielt darauf ab, das CNN noch flexibler und widerstandsfähiger gegenüber einer Vielzahl von Bildvariationen zu machen. Durch das Training mit einem so diversifizierten Datensatz strebt das vierte Modell die höchste Generalisierungsfähigkeit und Leistung unter den vier Ansätzen an.
 
-#### Unser Modell
+#### Unser Modell (Stand 27.03.2024)
 Unser Modell besteht aus mehreren *Convolutional* (*Conv2D*) und *MaxPooling2D*-Schichten, gefolgt von *Dropout*-Schichten, einer *Flatten*-Schicht und mehreren *Dense*-Schichten, die in eine *Softmax*-Aktivierungsfunktion münden.
 
 Die Architektur beginnt mit *Conv2D*-Schichten, die die Grundlage der Feature-Extraktion bilden. Diese Schichten wenden Filter auf die Eingabebilder an, um Merkmale wie Kanten, Ecken und Texturen zu identifizieren. Die Nutzung von 5x5-Filtern gefolgt von 3x3-Filtern ermöglicht es dem Netzwerk, zunächst breitere Muster zu erkennen und daraufhin detailliertere, feinere Strukturen zu erfassen.
 
-Um den Lernprozess weiter zu optimieren und zu stabilisieren, folgt auf jede Conv2D-Schicht eine BatchNormalization. Wir haben durch Experimentieren festgestellt, dass durch die BatchNormalization nach jedem Schritt, dass Modell schneller während des Trainings konvergiert und weniger empfindlich auf kleine Schwankungen in den Trainingsdaten reagiert. Das Resultat ist eine Reduzierung des Overfittings.
+Um den Lernprozess weiter zu optimieren und zu stabilisieren, folgt auf jede *Conv2D*-Schicht eine *BatchNormalization*. Wir haben durch Experimentieren festgestellt, dass durch die *BatchNormalization* nach jedem Schritt, dass Modell schneller während des Trainings konvergiert und weniger empfindlich auf kleine Schwankungen in den Trainingsdaten reagiert. Das Resultat ist eine Reduzierung des *Overfittings*.
 
-Zur Reduktion der Komplexität und weiteren Vermeidung von Overfitting tragen MaxPooling2D-Schichten bei. Sie verringern die räumlichen Dimensionen der Feature-Maps, wodurch die Anzahl der Parameter reduziert und die Rechenanforderungen gesenkt werden. Diese Verringerung zwingt das Netzwerk, sich auf die wesentlichsten Merkmale zu konzentrieren, was die Generalisierungsfähigkeit des Modells verbessert.
+Zur Reduktion der Komplexität und weiteren Vermeidung von Overfitting tragen *MaxPooling2D*-Schichten bei. Sie verringern die räumlichen Dimensionen der Feature-Maps, wodurch die Anzahl der Parameter reduziert und die Rechenanforderungen gesenkt werden. Diese Verringerung zwingt das Netzwerk, sich auf die wesentlichsten Merkmale zu konzentrieren, was die Generalisierungsfähigkeit des Modells verbessert.
 
-Ein weiterer wichtiger Aspekt der Architektur ist die Integration von Dropout als Regularisierungstechnik. Durch das zufällige Nullsetzen von Neuronenausgaben während des Trainings wird eine zu starke Abhängigkeit von den Trainingsdaten vermieden. Diese Methode fördert eine robuste Feature-Erkennung, die auf neuen, unbekannten Daten gut generalisiert.
-Schließlich wird die Architektur durch Flatten- und Dense-Schichten vervollständigt, die die extrahierten und verarbeiteten Merkmale in Klassifikationswahrscheinlichkeiten umwandeln. Die Flatten-Schicht konvertiert die 2D-Feature-Maps in einen eindimensionalen Vektor, der von den Dense-Schichten verarbeitet wird. Die letzte Schicht nutzt die Softmax-Funktion, um die Zugehörigkeit eines Bildes zu einer der 10 Ziffernklassen in Form von Wahrscheinlichkeiten auszudrücken. 
+Ein weiterer wichtiger Aspekt der Architektur ist die Integration von *Dropout* als Regularisierungstechnik. Durch das zufällige Nullsetzen von Neuronenausgaben während des Trainings wird eine zu starke Abhängigkeit von den Trainingsdaten vermieden. Diese Methode fördert eine robuste Feature-Erkennung, die auf neuen, unbekannten Daten gut generalisiert.
+Schließlich wird die Architektur durch *Flatten*- und *Dense*-Schichten vervollständigt, die die extrahierten und verarbeiteten Merkmale in Klassifikationswahrscheinlichkeiten umwandeln. Die *Flatten*-Schicht konvertiert die *2D-Feature-Maps* in einen eindimensionalen Vektor, der von den *Dense*-Schichten verarbeitet wird. Die letzte Schicht nutzt die *Softmax-Funktion*, um die Zugehörigkeit eines Bildes zu einer der 10 Ziffernklassen in Form von Wahrscheinlichkeiten auszudrücken.
+
+### Daten Augumentation
+
+Für die Erweiterung des Trainingsdatensatzes verwenden wir den Keras ImageDataGenerator. 
+
+In der für uns am sinnvollsten erscheinenden Konfigurationen **rotieren** wir wie bereits in der Vorlesung die Bilder zufällig um den Bildmittelpunkt. Dabei haben wir aber den Bereich der Rotation auf -10° bis +10° beschränkt. Diese Transformation bereitet das Modell darauf vor, Objekte unabhängig von ihrer Ausrichtung korrekt zu identifizieren, was die Fähigkeit des Modells verbessert, mit Drehungen in Eingabebildern umzugehen.
+
+Außerdem **vergrößern oder verkleinern** wir die Bilder um bis zu 10%. Diese Skalierung hilft dem Modell, Objekte unterschiedlicher Größe zu erkennen und damit flexibler auf Variationen in der Bildskalierung zu reagieren.
+
+Die **Breiten- und Höhenverschiebung** ermöglicht es, die Bilder horizontal und vertikal um bis zu 10% zu verschieben. Durch diese Verschiebungen lernt das Modell, wichtige Merkmale und Objekte im Bild zu erkennen, selbst wenn sie nicht zentral positioniert sind.
+Durch die Vielfalt der generierten Datenbilder wird das Modell robuster und weniger anfällig für Overfitting, was seine Generalisierungsfähigkeit auf unbekannte Daten, bzw. den Testdatensatz signifikant verbessert.
+
+### Optimizer und Training
+
+Für die Optimierung des Trainingsprozesses entdeckten wir zwei besondere Methoden: die dynamische Anpassung der Lernrate (*ReduceLROnPlateau*)  und die frühzeitige Beendigung des Trainings (*EarlyStopping*). Diese so genannten Callbacks halfen dabei, die Leistung unseres Modells fein zu justieren und Overfitting zu verhindern, indem sie einen Parameter beobachten und die Lernrate verkleinern oder den Trainingsprozess beenden sofern der beobachtete Parameter über einen festgelegten Zeitraum keine signifikante Veränderung mehr aufzeigt.
+
+![best Model](images/best.png)
+
+Bei der Visualierung der Metriken *Loss* und *Accuracy* unseres Modells 
+ist zu Erkennen, dass Trainings- und Validierungsdaten ungefähr bei Epoche 21 konvergieren. Ab dieser Epoche ist die Accuracy des Trainingsset größer als die des Validierungsdatensatzes, bzw. der Loss des Traingssets geringer, als der des Validierungssets. Zur Vermeidung von Overfitting, sollte das Training ca. bei Epoche 21 beendet werden.
+
+### Erreichte Ergebnisse
+
+Unser CNN hat beeindruckende Ergebnisse erzielt. Mit einem Testverlust von nur `0.009` und einer Testgenauigkeit von `0.997` übertrifft unser Modell die Leistung der in der Vorlesung vorgestellten Netzwerke deutlich. Diese Ergebnisse verdeutlichen die Effektivität unserer Modellarchitektur und des Trainingsansatzes, die zusammen ein hohes Maß an Präzision und Zuverlässigkeit bei der Handschriftenerkennung ermöglichen.
+
+| Name                   | Loss          | Accuracy         |
+|------------------------|---------------|------------------|
+| CNN-MNIST-101          | 0,0090        | 0,9970           |
+
+### Bedeutung der Ergebnisse
+
+Die erzielte Testgenauigkeit von 99,7% stellt einen signifikanten Fortschritt in der Genauigkeit der Handschriftenerkennung gegenüber den in Vorlesung vorgestellten Modellen dar und bestätigt die Fähigkeit unseres CNNs, selbst subtile Unterschiede zwischen verschiedenen Ziffern zu erkennen und korrekt zu klassifizieren.
+
+Zudem zeigt der niedrige Testverlust, dass unser Modell sehr präzeise Vorhersagen trifft.
+
+Nach der Anwendung unseres Modell auf den Testdatensatz (10 000 Bilder) zeigt die folgende Konfusionsmatrix, wie die Ziffern durch das Modell identifiziert wurden.
+
+![Konfusionsmatrix](images/beste_konfusionsmatrix.png)
+
+Wir sehen, dass unser Modell insbesondere bei der Identifizierung der Ziffern `5`und `9` Probleme hat. Diese werden jeweils vier mal fälschlciherweise als `3` bzw. als `4` identifiziert.
+
+Die folgende Grafik zeigt uns die falsch identifizierten Bilder, absteigend sortiert nach der Differenz der:
+- **Vorhergesagten Wahrscheinlichkeit**, die vom Modell als am wahrscheinlichsten erachteten Labels und der
+- **Wahren Wahrscheinlichkeit**, die aus dem Modell für das tatsächlich richtige Label extrahiert wird, basierend auf der Vorhersagewahrscheinlichkeit des Modells für dieses richtige Label.
+
+
+![biggest fails](images/biggest_fails.png)
+
+Diese Differenz zeigt, wie groß der Unterschied zwischen der Zuversicht des Modells in seiner Wahl (die höchste Wahrscheinlichkeit, die es einem Label zuordnet) und der Zuversicht, die es eigentlich in die richtige Antwort haben sollte, ist. Wenn der Wert groß ist, bedeutet das, dass das Modell sehr sicher in einer falschen Vorhersage war – es hat ein falsches Label mit hoher Wahrscheinlichkeit vorhergesagt und dabei die richtige Antwort nicht ähnlich hoch bewertet. Also, anstatt direkt anzugeben, wie „sicher“ das Modell bei einer korrekten Identifizierung ist, zeigt dieser Wert, wie fehlgeleitet die Sicherheit des Modells bei einem Fehler war.
+
+### Abschließende Gedanken
+
+Wir sind stolz auf die Leistung unseres CNNs und die Fortschritte, die wir im Vergleich zu bestehenden Modellen gemacht haben. Diese Ergebnisse sind nicht nur ein Beleg für die erfolgreiche Umsetzung des Konzepte aus der Vorlesung in die Praxis, sondern auch ein motivierender Schritt vorwärts in unserer kontinuierlichen Entwicklung im Bereich des maschinellen Lernens.
+
+Ein interessanter Aspekt für zukünftige Untersuchungen könnte die Validierung unseres Modells auf anderen Datensätzen sein, insbesondere solchen, die aus verschiedenen kulturellen Kontexten stammen. Zum Beispiel könnte ein Datensatz mit deutscher Handschrift untersucht werden, da es kulturelle Unterschiede in der handschriftlichen Schreibweise von Ziffern gibt. Der MNIST-Datensatz basiert auf amerikanischen Handschriften, was bedeutet, dass unser Modell auf Datensätzen aus anderen Ländern möglicherweise unterschiedlich abschneiden könnte. Die Überprüfung der Robustheit und Generalisierbarkeit unseres CNNs über den MNIST-Datensatz hinaus könnte uns wertvolle Einblicke in seine Anwendbarkeit auf eine breitere Palette von Handschriftenerkennungsaufgaben geben.
+
+Anschließend könnte ein Ensemble-Modell, welches mehrere CNNs zu einem Modell verknüpft, entwickelt werden, wodurch sich die Modellgenauigkeit weiter steigern ließe. Ein weiterer reizvoller Schritt, wäre das Modell auf einen mit einer Kamera versehenen Mikrocontroller (z.B. ESP32 mit OV240 camera) zu flashen um davon ausgehend die Funktionalität unseres Modells in der Realität zu testen.
+
+
 
 ## Konfigurationsmöglichkeiten
 **Autor:** *NF*
@@ -228,7 +287,7 @@ Das Projekt bietet verschiedene Konfigurationsmöglichkeiten über die `_00_main
 - `SEED`: Der Seed für den Zufallsgenerator, der für die Datenaufteilung verwendet wird. Bei der gemeinsamen Arbeit an unserem Modell nutzten wir den Seed `2`.
 - `early_stopping_enabled`: Aktiviert oder deaktiviert das Early Stopping (`True`oder `False`).
 
-Diese Einstellungen können direkt in der `_00_main.py`-Datei angepasst werden, um das Training nach Bedarf zu konfigurieren.
+Diese Einstellungen können direkt in der `_00_main.py`-Datei angepasst werden, um das Training nach Bedarf zu konfigurieren. Die Einstellungen die den aktuellen "Modell-Highscore" erzielten werden automatisch in der `best_parameters.json` gespeichert, aus der sie sich problemlos ablesen lassen.
 
 ## Dateistruktur
 **Autor:** *NF*
@@ -244,7 +303,7 @@ Das Projekt "CNN-HANDWRITING" besteht aus den folgenden Dateien:
 - `_04_data_saver.py`: Zuständig für das Speichern und Übertragen der Trainingsparameter und des Modells nach einem Training mit einem neuen Highscore bei Accuracy und Loss des CNN.
 - `_05_model_plot.py`: Bietet Funktionen zum Plotten von Trainings- und Validierungsverlust sowie Genauigkeit über die Epochen.
 
-Um das Projekt auszuführen und das Modell zu trainieren, starten Sie einfach `main.py` mit Python. Stellen Sie sicher, dass alle Abhängigkeiten gemäß den Anweisungen in "Installation und Abhängigkeiten" installiert sind.
+Um das Projekt auszuführen und das Modell zu trainieren, starten Sie einfach `_00_main.py` mit Python. Stellen Sie sicher, dass alle Abhängigkeiten gemäß den Anweisungen in "Installation und Abhängigkeiten" installiert sind.
 
 ## Ausblick/To-Do
 **Autor:** *NF*
