@@ -22,22 +22,6 @@ In diesem GitLab-Projekt wollen wir gemeinsam am Code arbeiten, um das Modul Kü
 Der aktuelle Highscore beim Training ist auch in der `best_parameters.json` zu finden.
 
 
-## Activation maps von erstem Conv
-**Autor:** *MG*
-
-![Bild1 von Training](images/Figure_3.png)
-
-## Filter
-**Autor:** *MG*
-
-![Bild1 von Training](images/Figure_4.png)
-
-## TSNE Plot
-**Autor:** *MG*
-
-![Bild1 von Training](images/Figure_5.png)
-
-
 ## Hintergrund MNIST Datensatz
 
 **Autor:** *KK*
@@ -241,6 +225,63 @@ Für die Optimierung des Trainingsprozesses entdeckten wir zwei besondere Method
 
 Bei der Visualierung der Metriken *Loss* und *Accuracy* unseres Modells 
 ist zu Erkennen, dass Trainings- und Validierungsdaten ungefähr bei Epoche 21 konvergieren. Ab dieser Epoche ist die Accuracy des Trainingsset größer als die des Validierungsdatensatzes, bzw. der Loss des Traingssets geringer, als der des Validierungssets. Zur Vermeidung von Overfitting, sollte das Training ca. bei Epoche 21 beendet werden.
+
+
+### Visualisierungen von unterschiedlichen Layern des Modells
+
+Die neuen Plot Funktionen ermöglichen einen Visuellen Einblick in die einzelnen Schichten des CCN, um bessere Einblicke in diese vermeintliche "Black Box" zu erhalten.
+
+#### plot_activation_maps am Beispiel 1. Conv2D Layer
+**Autor:** *MG*
+
+Die Funktion visualisiert was im jeweiligen Layer des CNN passiert. Hier am Beispiel des ersten Conv2D Layers:
+
+![Bild1 von Training](images/Figure_3.png)
+
+Diese Activationmaps sind im Grunde genommen die Ausgaben der Neuronen in einer Schicht nach Anwendung der jeweiligen Filter auf das Eingabebild. Die Maps verdeutlichen, welche Teile oder Merkmale des Eingabebildes aktiv sind, nachdem sie durch die Filter der Schicht gelaufen sind.
+
+
+Sinn des Plots: 
+- Feststellung welche Texturen / Kanten / Muster das CNN erkennt
+- Ziel: Fehlerquellen bei falscher Erkennung idenzifizieren 
+**Frage: warum werden nur 28 ausgegeben, obwohl Layer 1 nun 32 hat - alter Plot? Neu ausführen**
+Conv2D(**32**, kernel_size=(5, 5), padding='Same', activation='relu', input_shape=input_shape),
+
+#### plot_filters am Beispiel 1. Conv2D Layer
+**Autor:** *MG*
+
+Die kleinen, quadratischen Matrizen, sind die Filter die auf das Eingabebild angewendet werden.
+
+
+![Bild1 von Training](images/Figure_4.png)
+
+Diese sollen spezifische Features zu extrahieren. Sie werden häufig auch Kerne genannt:
+Conv2D(32, **kernel_size=(5, 5)**, padding='Same', activation='relu', input_shape=input_shape),
+
+Diese Filter werden über das Eingabebild geschoben und erzeugen damit die vorher gezeigte Activationmap.
+Die unterschiedlichen Grautöne in jedem Balken geben die unterschiedlichen Gewichtswerte wieder, die bestimmen, wie jeder Filter auf Eingabedaten reagiert.
+
+- Dunklere Grautöne könnten niedrigere Werte oder negative Werte anzeigen, die in der Bildverarbeitung oft dazu verwendet werden, um bestimmte Merkmale wie Kanten oder Übergänge zu "hemmen" oder weniger zu betonen.
+- Hellere Grautöne könnten höhere oder positive Werte darstellen, die bestimmte Features im Eingabebild hervorheben.
+
+Sinn des Plots: 
+Ermöglicht Tiefenanlyse der jeweiligen Layer, da wir hier die "kleinste" Einheit darstellen
+
+#### visualize_embeddings des ersten Dense Layers - T-SNE Plot
+**Autor:** *MG*
+
+Visualisiert die hochdimensionalen Ausgaben der Schicht (hier: erster Dense Layer), nachdem die Eingabedaten (hier: test) durch das Modell verarbeitet wurden. 
+Diese Ausgaben werden als Embeddings bezeichnet, da sie eine eingebettete Repräsentation der Eingabedaten im Feature-Raum der  Schicht darstellen. Durch die Anwendung von T-SNE oder PCA reduzieren wir diese hochdimensionalen Daten auf zwei Dimensionen, um sie leicht visualisierbar und besser verständlich zu machen.
+
+![Bild1 von Training](images/Figure_5.png)
+
+Im Gegensatz zum T-SNE Plot des gesamten Modells sehen wir hier, wie das Modell die Eingabedaten nun "sieht", nachdem mehrere Schichten durchlaufen wurden.
+Die wichtigsten Unterschiede erkennt man dabei hier:
+- Klassenabgrenzung: Die Trennung der verschiedenen Klassen ist in den Embeddings der dense_1 Schicht viel eindeutiger, was zeigt, dass das Modell effektive Merkmale für die Klassifikation lernt.
+- Clusterbildung: Die Art und Weise, wie die Datenpunkte clustern, zeigt die Fähigkeit des Modells, ähnliche Beispiele zu gruppieren und Unterschiede zwischen den Klassen zu erkennen.
+
+Warum ist eine Dimensionsreduzierung mit PCA / T-SNE notwendig, der Dense Layer reduziert doch selber bereits?
+Der Dense Layer führt lineare Transformation und dann nicht-linerare Transformation (von uns gewählt: ReLu) durch. Allerdings ist die Komplexität der Ausgaben immernoch hoch (zuletzt gesteigert von 64 auf 512 Ausgaben) und muss daher reduziert werden. 
 
 ### Erreichte Ergebnisse
 
