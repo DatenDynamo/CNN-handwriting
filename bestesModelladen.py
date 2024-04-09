@@ -1,11 +1,16 @@
 # _00_main.py
 from pickle import TRUE
 from keras.models import load_model
+import tensorflow as tf
+import matplotlib.pyplot as plt
+import seaborn as sn
+
 from _01_data_loader import load_mnist_data, load_best_parameters
 from _02_data_preprocess import preprocess_data
 from _03_model_training import train_model
 from _04_data_saver import save_best_parameters, update_readme_from_json
 from _05_model_plot import plot_training_history, plot_activation_maps, plot_filters, visualize_embeddings, plot_konfusionsmatrix, fehler_bestimmen, display_errors
+
 # Global festgelegte Parameter
 VAL_SIZE = 0.1 # Größe von den Validierungsdaten beim Split // Achtung: zum Testen des Modells wird IMMER der MNIST-Testdatensatz verwendet, siehe: https://ai.stackexchange.com/questions/37577/how-is-mnist-only-providing-the-training-and-the-test-sets-what-about-the-valid
 epochs = 2 # Anzahl der Epochen // bricht aber sowieso nach der "idealen" Anzahl ab wenn early_stopping_enabled TRUE ist
@@ -29,6 +34,8 @@ def main():
     score = model.evaluate(test, Y_test, verbose=0)
     print(f'Test loss: {score[0]}')
     print(f'Test accuracy: {score[1]}')
+    
+    tf.keras.utils.plot_model(model, show_shapes=True, show_layer_names=True)
     
 
     is_better = True
