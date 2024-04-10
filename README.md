@@ -175,6 +175,8 @@ Dabei haben wir für unser Modell bei unserem zweiten Gruppentreffen das gemeins
 Nach dem Training wird das Modell automatisch mit dem Testdatensatz bewertet, und die Testverlust und -genauigkeit werden angezeigt. Darüber hinaus wird der Trainingsverlauf, einschließlich Trainings- und Validierungsverlust sowie -genauigkeit, mit Hilfe von Matplotlib geplottet. Diese Visualisierung hilft, die Leistung des Modells über die Zeit zu analysieren.
 
 ### Modellarchitektur
+**Autor:** *NF*
+
 
 #### Modelle der Vorlesung
  Ausgangspunkt für die Architektur unseres CNN waren dabei die in der Vorlesung vorgestellten vier Modelle welche jeweils eine Genauigkeit auf den Testdatensatz zwischen 98,95 % und 99,27 % erreichten:
@@ -206,7 +208,12 @@ Zur Reduktion der Komplexität und weiteren Vermeidung von Overfitting tragen *M
 Ein weiterer wichtiger Aspekt der Architektur ist die Integration von *Dropout* als Regularisierungstechnik. Durch das zufällige Nullsetzen von Neuronenausgaben während des Trainings wird eine zu starke Abhängigkeit von den Trainingsdaten vermieden. Diese Methode fördert eine robuste Feature-Erkennung, die auf neuen, unbekannten Daten gut generalisiert.
 Schließlich wird die Architektur durch *Flatten*- und *Dense*-Schichten vervollständigt, die die extrahierten und verarbeiteten Merkmale in Klassifikationswahrscheinlichkeiten umwandeln. Die *Flatten*-Schicht konvertiert die *2D-Feature-Maps* in einen eindimensionalen Vektor, der von den *Dense*-Schichten verarbeitet wird. Die letzte Schicht nutzt die *Softmax-Funktion*, um die Zugehörigkeit eines Bildes zu einer der 10 Ziffernklassen in Form von Wahrscheinlichkeiten auszudrücken.
 
+![Model Architektur](images/model.png)
+
 ### Daten Augumentation
+
+**Autor:** *NF*
+
 
 Für die Erweiterung des Trainingsdatensatzes verwenden wir den Keras ImageDataGenerator. 
 
@@ -219,6 +226,9 @@ Durch die Vielfalt der generierten Datenbilder wird das Modell robuster und weni
 
 ### Optimizer und Training
 
+**Autor:** *NF*
+
+
 Für die Optimierung des Trainingsprozesses entdeckten wir zwei besondere Methoden: die dynamische Anpassung der Lernrate (*ReduceLROnPlateau*)  und die frühzeitige Beendigung des Trainings (*EarlyStopping*). Diese so genannten Callbacks halfen dabei, die Leistung unseres Modells fein zu justieren und Overfitting zu verhindern, indem sie einen Parameter beobachten und die Lernrate verkleinern oder den Trainingsprozess beenden sofern der beobachtete Parameter über einen festgelegten Zeitraum keine signifikante Veränderung mehr aufzeigt.
 
 ![best Model](images/best.png)
@@ -228,6 +238,9 @@ ist zu Erkennen, dass Trainings- und Validierungsdaten ungefähr bei Epoche 21 k
 
 
 ### Visualisierungen von unterschiedlichen Layern des Modells
+
+**Autor:** *NF*
+
 
 Die neuen Plot Funktionen ermöglichen einen Visuellen Einblick in die einzelnen Schichten des CCN, um bessere Einblicke in diese vermeintliche "Black Box" zu erhalten.
 
@@ -285,6 +298,8 @@ Der Dense Layer führt lineare Transformation und dann nicht-linerare Transforma
 
 ### Erreichte Ergebnisse
 
+**Autor:** *NF*
+
 Unser CNN hat beeindruckende Ergebnisse erzielt. Mit einem Testverlust von nur `0.009` und einer Testgenauigkeit von `0.997` übertrifft unser Modell die Leistung der in der Vorlesung vorgestellten Netzwerke deutlich. Diese Ergebnisse verdeutlichen die Effektivität unserer Modellarchitektur und des Trainingsansatzes, die zusammen ein hohes Maß an Präzision und Zuverlässigkeit bei der Handschriftenerkennung ermöglichen.
 
 | Name                   | Loss          | Accuracy         |
@@ -292,6 +307,8 @@ Unser CNN hat beeindruckende Ergebnisse erzielt. Mit einem Testverlust von nur `
 | CNN-MNIST-101          | 0,0090        | 0,9970           |
 
 ### Bedeutung der Ergebnisse
+
+**Autor:** *NF*
 
 Die erzielte Testgenauigkeit von 99,7% stellt einen signifikanten Fortschritt in der Genauigkeit der Handschriftenerkennung gegenüber den in Vorlesung vorgestellten Modellen dar und bestätigt die Fähigkeit unseres CNNs, selbst subtile Unterschiede zwischen verschiedenen Ziffern zu erkennen und korrekt zu klassifizieren.
 
@@ -313,6 +330,9 @@ Die folgende Grafik zeigt uns die falsch identifizierten Bilder, absteigend sort
 Diese Differenz zeigt, wie groß der Unterschied zwischen der Zuversicht des Modells in seiner Wahl (die höchste Wahrscheinlichkeit, die es einem Label zuordnet) und der Zuversicht, die es eigentlich in die richtige Antwort haben sollte, ist. Wenn der Wert groß ist, bedeutet das, dass das Modell sehr sicher in einer falschen Vorhersage war – es hat ein falsches Label mit hoher Wahrscheinlichkeit vorhergesagt und dabei die richtige Antwort nicht ähnlich hoch bewertet. Also, anstatt direkt anzugeben, wie „sicher“ das Modell bei einer korrekten Identifizierung ist, zeigt dieser Wert, wie fehlgeleitet die Sicherheit des Modells bei einem Fehler war.
 
 ### Abschließende Gedanken
+
+**Autor:** *NF*
+
 
 Wir sind stolz auf die Leistung unseres CNNs und die Fortschritte, die wir im Vergleich zu bestehenden Modellen gemacht haben. Diese Ergebnisse sind nicht nur ein Beleg für die erfolgreiche Umsetzung des Konzepte aus der Vorlesung in die Praxis, sondern auch ein motivierender Schritt vorwärts in unserer kontinuierlichen Entwicklung im Bereich des maschinellen Lernens.
 
@@ -355,3 +375,4 @@ Um das Projekt auszuführen und das Modell zu trainieren, starten Sie einfach `_
 **Autor:** *NF*
  - Ensemble Learning
  - verschiedene Testdatensätze
+ - "Speedrunning" mit MNIST-Datensatz (möglichst wenig Layer, möglichst wenig Epochs bei maximaler Accuracy usw.)
