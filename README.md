@@ -22,6 +22,35 @@ In diesem GitLab-Projekt wollen wir gemeinsam am Code arbeiten, um das Modul Kü
 Der aktuelle Highscore beim Training ist auch in der `best_parameters.json` zu finden.
 
 
+## Dateistruktur
+**Autor:** *NF*
+
+Das Projekt "CNN-HANDWRITING" besteht aus den folgenden Dateien:
+
+- `README.md`: Diese Datei. Sie enthält eine Einführung in das Projekt, Installationsanweisungen, Nutzungsinformationen und eine Beschreibung der Dateistruktur sowie der Ergebnisse.
+- `best_parameters.json`: Eine JSON-Datei, die automatisch erstellt wird, um die besten Parameter und Metriken des Trainings zu speichern.
+- `_00_main.py`: Der Hauptskript, der den gesamten Trainingsprozess orchestriert, von Datenladung und -vorverarbeitung bis hin zum Modelltraining und der Ergebnisanalyse.
+- `_01_data_loader.py`: Enthält Funktionen zum Laden des MNIST-Datensatzes und zum Speichern/Laden der besten Trainingsparameter.
+- `_02_data_preprocess.py`: Beinhaltet die Vorverarbeitungslogik für die Bilddaten, einschließlich der Aufteilung in Trainings- und Validierungsdatensätze und der Normalisierung.
+- `_03_model_training.py`: Definiert das CNN-Modell und die Trainingsroutine, einschließlich Callbacks wie Early Stopping und Learning Rate Reduction.
+- `_04_data_saver.py`: Zuständig für das Speichern und Übertragen der Trainingsparameter und des Modells nach einem Training mit einem neuen Highscore bei Accuracy und Loss des CNN.
+- `_05_model_plot.py`: Bietet Funktionen zum Plotten von Trainings- und Validierungsverlust sowie Genauigkeit über die Epochen.
+
+Um das Projekt auszuführen und das Modell zu trainieren, starten Sie einfach `_00_main.py` mit Python. Stellen Sie sicher, dass alle Abhängigkeiten gemäß den Anweisungen in "Installation und Abhängigkeiten" installiert sind.
+
+## Konfigurationsmöglichkeiten
+**Autor:** *NF*
+
+Das Projekt bietet verschiedene Konfigurationsmöglichkeiten über die `_00_main.py`-Datei:
+
+- `VAL_SIZE`: Legt den relativen Anteil der Validierungsdaten fest (zwischen 0 und 1). Empfohlen wird ein Split von `0.1`.
+- `epochs`: Die maximale Anzahl der Trainingsepochen. Das Training kann aufgrund des Early Stoppings früher beendet werden. Empfohlen wird ein Wert <`40`.
+- `batch_size`: Die Größe der Batches während des Trainings. Empfohlen wird eine Größe von `64`.
+- `SEED`: Der Seed für den Zufallsgenerator, der für die Datenaufteilung verwendet wird. Bei der gemeinsamen Arbeit an unserem Modell nutzten wir den Seed `2`.
+- `early_stopping_enabled`: Aktiviert oder deaktiviert das Early Stopping (`True`oder `False`).
+
+Diese Einstellungen können direkt in der `_00_main.py`-Datei angepasst werden, um das Training nach Bedarf zu konfigurieren. Die Einstellungen die den aktuellen "Modell-Highscore" erzielten werden automatisch in der `best_parameters.json` gespeichert, aus der sie sich problemlos ablesen lassen.
+
 ## Hintergrund MNIST Datensatz
 
 **Autor:** *KK*
@@ -340,39 +369,13 @@ Ein interessanter Aspekt für zukünftige Untersuchungen könnte die Validierung
 
 Anschließend könnte ein Ensemble-Modell, welches mehrere CNNs zu einem Modell verknüpft, entwickelt werden, wodurch sich die Modellgenauigkeit weiter steigern ließe. Ein weiterer reizvoller Schritt, wäre das Modell auf einen mit einer Kamera versehenen Mikrocontroller (z.B. ESP32 mit OV240 camera) zu flashen um davon ausgehend die Funktionalität unseres Modells in der Realität zu testen.
 
+Für zukünfitge Gruppenprojekte im Rahmen unseres Masters sind sich alle Gruppenmitglieder einig, dass ein Jupyter-Notebook genutzt werden sollte. Da es im Laufe des Projekts zu Kompatibilitätsproblemen kam.
 
-
-## Konfigurationsmöglichkeiten
-**Autor:** *NF*
-
-Das Projekt bietet verschiedene Konfigurationsmöglichkeiten über die `_00_main.py`-Datei:
-
-- `VAL_SIZE`: Legt den relativen Anteil der Validierungsdaten fest (zwischen 0 und 1). Empfohlen wird ein Split von `0.1`.
-- `epochs`: Die maximale Anzahl der Trainingsepochen. Das Training kann aufgrund des Early Stoppings früher beendet werden. Empfohlen wird ein Wert <`40`.
-- `batch_size`: Die Größe der Batches während des Trainings. Empfohlen wird eine Größe von `64`.
-- `SEED`: Der Seed für den Zufallsgenerator, der für die Datenaufteilung verwendet wird. Bei der gemeinsamen Arbeit an unserem Modell nutzten wir den Seed `2`.
-- `early_stopping_enabled`: Aktiviert oder deaktiviert das Early Stopping (`True`oder `False`).
-
-Diese Einstellungen können direkt in der `_00_main.py`-Datei angepasst werden, um das Training nach Bedarf zu konfigurieren. Die Einstellungen die den aktuellen "Modell-Highscore" erzielten werden automatisch in der `best_parameters.json` gespeichert, aus der sie sich problemlos ablesen lassen.
-
-## Dateistruktur
-**Autor:** *NF*
-
-Das Projekt "CNN-HANDWRITING" besteht aus den folgenden Dateien:
-
-- `README.md`: Diese Datei. Sie enthält eine Einführung in das Projekt, Installationsanweisungen, Nutzungsinformationen und eine Beschreibung der Dateistruktur sowie der Ergebnisse.
-- `best_parameters.json`: Eine JSON-Datei, die automatisch erstellt wird, um die besten Parameter und Metriken des Trainings zu speichern.
-- `_00_main.py`: Der Hauptskript, der den gesamten Trainingsprozess orchestriert, von Datenladung und -vorverarbeitung bis hin zum Modelltraining und der Ergebnisanalyse.
-- `_01_data_loader.py`: Enthält Funktionen zum Laden des MNIST-Datensatzes und zum Speichern/Laden der besten Trainingsparameter.
-- `_02_data_preprocess.py`: Beinhaltet die Vorverarbeitungslogik für die Bilddaten, einschließlich der Aufteilung in Trainings- und Validierungsdatensätze und der Normalisierung.
-- `_03_model_training.py`: Definiert das CNN-Modell und die Trainingsroutine, einschließlich Callbacks wie Early Stopping und Learning Rate Reduction.
-- `_04_data_saver.py`: Zuständig für das Speichern und Übertragen der Trainingsparameter und des Modells nach einem Training mit einem neuen Highscore bei Accuracy und Loss des CNN.
-- `_05_model_plot.py`: Bietet Funktionen zum Plotten von Trainings- und Validierungsverlust sowie Genauigkeit über die Epochen.
-
-Um das Projekt auszuführen und das Modell zu trainieren, starten Sie einfach `_00_main.py` mit Python. Stellen Sie sicher, dass alle Abhängigkeiten gemäß den Anweisungen in "Installation und Abhängigkeiten" installiert sind.
 
 ## Ausblick/To-Do
 **Autor:** *NF*
  - Ensemble Learning
  - verschiedene Testdatensätze
  - "Speedrunning" mit MNIST-Datensatz (möglichst wenig Layer, möglichst wenig Epochs bei maximaler Accuracy usw.)
+ - eine Version verwenden und nicht während des Prozesses updaten
+ - Jupyter Notebook verwenden

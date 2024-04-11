@@ -64,7 +64,7 @@ def main():
         update_readme_from_json(json_file_path, readme_file_path, start_marker, end_marker)
 
 
-        # Save the weights
+        # Save the model
         model.save('model.h5',overwrite=True)
 
     # Trainingsverlauf plotten
